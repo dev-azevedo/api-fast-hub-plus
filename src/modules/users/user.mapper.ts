@@ -32,7 +32,7 @@ class UserMapper {
       role: userUpdate.role,
       active: userUpdate.active,
       createdAt: userOnDb.createdAt,
-      updatedAt: userOnDb.updatedAt,
+      updatedAt: new Date(),
     } as User;
   };
 

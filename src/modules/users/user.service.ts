@@ -46,6 +46,9 @@ class UserService {
 
   public createUser = async (user: CreateUserDto): Promise<ResponseUserDto> => {
     const { confirmPassword, ...userData } = user;
+
+    if(userData.password !== confirmPassword)
+      throw new Error("Passwords do not match");
     
     const useronDb = await this._repository.findByEmail(user.email);
     
@@ -82,12 +85,13 @@ class UserService {
 
     if (!userOnDb)
       throw new Error("User not found");
+    
+    const userFormatted = await this._mapper.mapUpdateUserDtoToUser(
+      user,
+      userOnDb
+    );
 
-    userOnDb.name = user.name;
-    userOnDb.email = user.email;
-    userOnDb.role = user.role;
-
-    const userUpdate = await this._repository.updateUser(userOnDb);
+    const userUpdate = await this._repository.updateUser(userFormatted);
 
     return this._mapper.mapUserToResponse(userUpdate);
   };

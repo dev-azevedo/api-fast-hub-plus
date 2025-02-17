@@ -28,10 +28,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1MTRmZWZhL
 Content-Type: application/json
 
 {
-    "id": "e690f156-d830-4579-83bd-09c4d7351d77",
-    "name": "Jhonatan Azevedo 123",
-    "email": "dev.azevedo@outlook.com",
-    "password": "Jhow@1234",
+    "id": "6278050d-0da3-4b34-85a1-20e19c081f71",
+    "name": "Jhonatan Azevedo123123123",
+    "email": "dev.azevedo123@outlook.com",
     "role": "ADMIN"
 }
 
