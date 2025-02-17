@@ -5,6 +5,7 @@ import httpStatus from "http-status";
 import { CreateUserDto } from "./dtos/createUser.dto.js";
 import { UpdateUserDto } from "./dtos/updateUser.dto.js";
 import { SignInUserDto } from "./dtos/signInUser.dto.js";
+import ErrorHandler from "shared/errors/ErrorHandler.js";
 
 class UserController {
   private userService: UserService;
@@ -20,14 +21,7 @@ class UserController {
       const userSignedIn = await this.userService.signIn(user);
       res.status(httpStatus.OK).json(userSignedIn);
     } catch (error) {
-      if (error instanceof Error) {
-        res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
-        return;
-      }
-
-      res
-        .status(httpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: "Internal server error" });
+        ErrorHandler.handleError(res, error);
     }
   };
 
@@ -36,14 +30,7 @@ class UserController {
       const users = await this.userService.findAll();
       res.status(httpStatus.OK).json(users);
     } catch (error) {
-      if (error instanceof Error) {
-        res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
-        return;
-      }
-
-      res
-        .status(httpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: "Internal server error" });
+      ErrorHandler.handleError(res, error);
     }
   };
 
@@ -54,14 +41,7 @@ class UserController {
       const user = await this.userService.findById(id);
       res.status(httpStatus.OK).json(user);
     } catch (error) {
-      if (error instanceof Error) {
-        res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
-        return;
-      }
-
-      res
-        .status(httpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: "Internal server error" });
+      ErrorHandler.handleError(res, error);
     }
   };
 
@@ -73,14 +53,7 @@ class UserController {
       res.status(httpStatus.CREATED).json(userCreated);
     } 
     catch (error) {
-      if (error instanceof Error) {
-        res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
-        return;
-      }
-
-      res
-        .status(httpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: "Internal server error" });
+      ErrorHandler.handleError(res, error);
     }
   };
 
@@ -91,14 +64,7 @@ class UserController {
       const userUpdated = await this.userService.updateUser(user);
       res.status(httpStatus.OK).json(userUpdated);
     } catch (error) {
-      if (error instanceof Error) {
-        res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
-        return;
-      }
-
-      res
-        .status(httpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: "Internal server error" });
+      ErrorHandler.handleError(res, error);
     }
   };
 
@@ -109,14 +75,7 @@ class UserController {
       await this.userService.deactiveUser(id);
       res.status(httpStatus.NO_CONTENT).json({ message: "User deleted" });
     } catch (error) {
-      if (error instanceof Error) {
-        res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
-        return;
-      }
-
-      res
-        .status(httpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: "Internal server error" });
+      ErrorHandler.handleError(res, error);
     }
   };
 }
