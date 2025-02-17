@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//? Models
+
+model User {
+  id        String   @id @default(uuid())
+  name      String 
+  email     String   @unique
+  password  String
+  role      ETypeUser
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  reservations Reservation[]
+
+  @@map("users")
+}
+
+model Event {
+  id           String      @id @default(uuid())
+  name         String 
+  description  String 
+  eventDate    DateTime
+  amountTickets Int
+  amountReservations Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  reservations Reservation[]
+
+  @@map("events")
+}
+
+model Reservation {
+  id        String      @id @default(uuid())
+  userId    String
+  eventId   String
+  amountReservations Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id])
+  event  Event  @relation(fields: [eventId], references: [id])
+
+  @@map("reservations")
+}
+
+
+//! Enums
+enum ETypeUser {
+    ADMIN
+    USER
+}

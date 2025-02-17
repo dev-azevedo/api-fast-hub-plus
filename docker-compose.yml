@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  api-fest-hub-plus:
+    build: .
+    ports:
+      - '3005:3005'
+    volumes:
+      - .:/app
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@localhost:5432/fest-hub-plus?schema=public
