@@ -8,17 +8,17 @@ import { SignInUserDto } from "./dtos/signInUser.dto.js";
 import ErrorHandler from "shared/errors/ErrorHandler.js";
 
 class UserController {
-  private userService: UserService;
+  private readonly _service: UserService;
 
   constructor() {
-    this.userService = new UserService();
+    this._service = new UserService();
   }
 
   public signIn = async (req: Request, res: Response): Promise<void> => {
     const user: SignInUserDto = req.body;
 
     try {
-      const userSignedIn = await this.userService.signIn(user);
+      const userSignedIn = await this._service.signIn(user);
       res.status(httpStatus.OK).json(userSignedIn);
     } catch (error) {
         ErrorHandler.handleError(res, error);
@@ -27,7 +27,7 @@ class UserController {
 
   public findAll = async (req: Request, res: Response): Promise<void> => {
     try {
-      const users = await this.userService.findAll();
+      const users = await this._service.findAll();
       res.status(httpStatus.OK).json(users);
     } catch (error) {
       ErrorHandler.handleError(res, error);
@@ -38,7 +38,7 @@ class UserController {
     const id: string = req.params.id;
 
     try {
-      const user = await this.userService.findById(id);
+      const user = await this._service.findById(id);
       res.status(httpStatus.OK).json(user);
     } catch (error) {
       ErrorHandler.handleError(res, error);
@@ -49,7 +49,7 @@ class UserController {
     const user: CreateUserDto = req.body;
 
     try {
-      const userCreated = await this.userService.createUser(user);
+      const userCreated = await this._service.createUser(user);
       res.status(httpStatus.CREATED).json(userCreated);
     } 
     catch (error) {
@@ -61,7 +61,7 @@ class UserController {
     const user: UpdateUserDto = req.body;
 
     try {
-      const userUpdated = await this.userService.updateUser(user);
+      const userUpdated = await this._service.updateUser(user);
       res.status(httpStatus.OK).json(userUpdated);
     } catch (error) {
       ErrorHandler.handleError(res, error);
@@ -72,8 +72,8 @@ class UserController {
     const id: string = req.params.id;
 
     try {
-      await this.userService.deactiveUser(id);
-      res.status(httpStatus.NO_CONTENT).json({ message: "User deleted" });
+      await this._service.deactiveUser(id);
+      res.status(httpStatus.NO_CONTENT);
     } catch (error) {
       ErrorHandler.handleError(res, error);
     }

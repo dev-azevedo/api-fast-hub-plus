@@ -4,8 +4,8 @@ import EventRepository from "./event.repository.js";
 class EventService {
     private readonly _repository: EventRepository;
 
-    constructor(repository: EventRepository) {
-        this._repository = repository;
+    constructor() {
+        this._repository = new EventRepository();
     }
 
     public findAll = async (): Promise<Event[]> => {
