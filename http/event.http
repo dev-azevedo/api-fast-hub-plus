@@ -3,7 +3,7 @@ GET http://localhost:3005/api/events
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1MTRmZWZhLWQ3OWEtNDBmMy1iYjY5LWMwOTEwMzQzNjJkYyIsIm5hbWUiOiJKaG9uYXRhbiBBemV2ZWRvIiwiZW1haWwiOiJkZXYuYXpldmVkbzEyMzRAb3V0bG9vay5jb20iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3Mzk3OTQ5NjIsImV4cCI6MTczOTg4MTM2Mn0.fRhKbhBvv2XmrLFMvuLau0k3f5EKn34c2ccwPX65wfw
 
 ### Get event by id
-GET http://localhost:3005/api/events/6278050d-0da3-4b34-85a1-20e19c081f71
+GET http://localhost:3005/api/events/a38940f5-3f35-416d-9f02-736814430761
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1MTRmZWZhLWQ3OWEtNDBmMy1iYjY5LWMwOTEwMzQzNjJkYyIsIm5hbWUiOiJKaG9uYXRhbiBBemV2ZWRvIiwiZW1haWwiOiJkZXYuYXpldmVkbzEyMzRAb3V0bG9vay5jb20iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3Mzk3OTQ5NjIsImV4cCI6MTczOTg4MTM2Mn0.fRhKbhBvv2XmrLFMvuLau0k3f5EKn34c2ccwPX65wfw
 
 ### Create event
@@ -26,15 +26,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1MTRmZWZhL
 Content-Type: application/json
 
 {
-    "id": "6278050d-0da3-4b34-85a1-20e19c081f71",
+    "id": "a38940f5-3f35-416d-9f02-736814430761",
     "name": "Test event",
     "description": "Test event description",
     "eventDate": "2023-10-10T00:00:00.000Z",    
     "amountTickets": 10,
-    "amountReservations": 0
+    "amountReservations": 2
 }
 
 
 ### Deactive event
-PATCH http://localhost:3005/api/events/deactive/6278050d-0da3-4b34-85a1-20e19c081f71
+PATCH http://localhost:3005/api/events/deactive/a38940f5-3f35-416d-9f02-736814430761
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1MTRmZWZhLWQ3OWEtNDBmMy1iYjY5LWMwOTEwMzQzNjJkYyIsIm5hbWUiOiJKaG9uYXRhbiBBemV2ZWRvIiwiZW1haWwiOiJkZXYuYXpldmVkbzEyMzRAb3V0bG9vay5jb20iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3Mzk3OTQ5NjIsImV4cCI6MTczOTg4MTM2Mn0.fRhKbhBvv2XmrLFMvuLau0k3f5EKn34c2ccwPX65wfw
