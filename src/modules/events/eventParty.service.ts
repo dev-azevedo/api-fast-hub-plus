@@ -54,7 +54,7 @@ class EventPartyService {
     return this._mapper.mapEventPartyToResponse(updatedEvent);
   };
 
-  public deactiveEvent = async (id: string): Promise<void> => {
+  public deactive = async (id: string): Promise<void> => {
     await this._repository.deactive(id);
   };
 }   
