@@ -71,7 +71,8 @@ class UserController {
     try {
       const userCreated = await this.userService.createUser(user);
       res.status(httpStatus.CREATED).json(userCreated);
-    } catch (error) {
+    } 
+    catch (error) {
       if (error instanceof Error) {
         res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
         return;

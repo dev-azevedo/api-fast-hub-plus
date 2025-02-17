@@ -15,19 +15,35 @@ class UserRepository {
   };
 
   public findAll = async (): Promise<User[]> => {
-    return await this.prisma.user.findMany();
+    return await this.prisma.user.findMany({where: {active: true}});
   };
 
   public findById = async (id: string): Promise<User | null> => {
-    return await this.prisma.user.findUnique({
-      where: { id },
+    const userOnDb = await this.prisma.user.findUnique({
+      where: { 
+        id,
+        active: true
+       },
     });
+
+    if (userOnDb) {
+      return userOnDb;
+    }
+
+    return null;
   };
 
   public findByEmail = async (email: string): Promise<User | null> => {
-    return await this.prisma.user.findUnique({
+    const userOnDb = await this.prisma.user.findUnique({
       where: { email },
     });
+
+    
+    if (userOnDb) {
+      return userOnDb;
+    }
+
+    return null;
   };
 
   public updateUser = async (

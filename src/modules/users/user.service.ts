@@ -48,6 +48,12 @@ class UserService {
     const { confirmPassword, ...userData } = user;
     userData.password = await this._hashPassword(userData.password);
 
+    const useronDb = await this._repository.findByEmail(user.email);
+
+    if (useronDb) {
+      throw new Error("Email already exists");
+    }
+
     const userCreated = await this._repository.createUser(userData);
     return this._mapper.mapUserToResponse(userCreated);
   };
@@ -91,7 +97,6 @@ class UserService {
 
     await this._repository.deactiveUser(userOnDb.id);
   };
-
 
   private _hashPassword = (password: string): Promise<string> => {
     return bcrypt.hash(password, 10);
