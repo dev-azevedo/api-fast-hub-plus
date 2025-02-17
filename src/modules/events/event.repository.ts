@@ -8,12 +8,12 @@ class EventRepository {
     }
 
     public findAll = async (): Promise<Event[]> => {
-        return await this._prisma.event.findMany();
+        return await this._prisma.event.findMany({where: {active: true}});
     }
 
     public findById = async (id: string): Promise<Event | null> => {
         return await this._prisma.event.findUnique({
-            where: { id },
+            where: { id, active: true },
         });
     }
 

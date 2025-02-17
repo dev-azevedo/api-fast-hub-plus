@@ -3,6 +3,7 @@ import EventRepository from "./event.repository.js";
 import CreateEventDto from "./dtos/createEvent.dto.js";
 import EventMapper from "./event.mapper.js";
 import ResponseEventDto from "./dtos/responseEvent.dto.js";
+import UpdateEventDto from "./dtos/updateEvent.dto.js";
 
 class EventService {
   private readonly _repository: EventRepository;
@@ -34,10 +35,20 @@ class EventService {
     return this._mapper.mapEventToResponse(eventOnDb);
   };
 
-  public update = async (event: Event): Promise<ResponseEventDto> => {
-    const eventOnDb = await this._repository.updateEvent(event);
+  public update = async (event: UpdateEventDto): Promise<ResponseEventDto> => {
+    const eventOnDb = await this.findById(event.id) as Event;
 
-    return this._mapper.mapEventToResponse(eventOnDb);;
+    if (!eventOnDb) 
+        throw new Error("Event not found");
+
+    const eventFormatted = this._mapper.mapUpdateEventDtoToEvent(
+      event,
+      eventOnDb
+    );
+
+    const updatedEvent = await this._repository.updateEvent(eventFormatted);
+
+    return this._mapper.mapEventToResponse(updatedEvent);
   };
 
   public deactiveEvent = async (id: string): Promise<void> => {
