@@ -1,4 +1,4 @@
-class ResponseEventDto {
+class ResponseEventPartyDto {
     id!: string;
     name!: string;
     description!: string;
@@ -8,4 +8,4 @@ class ResponseEventDto {
     createdAt!: Date;
 }
 
-export default ResponseEventDto;
+export default ResponseEventPartyDto;

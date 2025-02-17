@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
 import httpStatus from "http-status";
 
-import EventService from "./event.service.js";
+import EventPartyService from "./eventParty.service.js";
 import ErrorHandler from "../../shared/errors/ErrorHandler.js";
 
-class EventController {
-  private readonly _service: EventService;
+class EventPartyController {
+  private readonly _service: EventPartyService;
 
   constructor() {
-    this._service = new EventService();
+    this._service = new EventPartyService();
   }
 
   public findAll = async (req: Request, res: Response) => {
@@ -58,4 +58,4 @@ class EventController {
   };
 }
 
-export default EventController;
+export default EventPartyController;

@@ -1,6 +1,6 @@
-import { IsDateString, IsNumber, IsString, Length, Min } from "class-validator";
+import { IsDateString, IsNumber, IsString, IsUUID, Length, Min } from "class-validator";
 
-class CreateEventDto {
+class CreateEventPartyDto {
   @IsString()
   @Length(3, 100)
   name!: string;
@@ -19,7 +19,11 @@ class CreateEventDto {
   @IsNumber()
   @Min(0)
   amountReservations: number = 0;
+
+  @IsUUID()
+  userId!: string;
+  
   active: boolean = true;
 }
 
-export default CreateEventDto;
+export default CreateEventPartyDto;

@@ -1,9 +1,9 @@
 import { IsUUID } from "class-validator";
-import CreateEventDto from "./createEvent.dto.js";
+import CreateEventPartyDto from "./createEvent.dto.js";
 
-class UpdateEventDto extends CreateEventDto {
+class UpdateEventPartyDto extends CreateEventPartyDto {
     @IsUUID()
     id!: string;
 }
 
-export default UpdateEventDto;
+export default UpdateEventPartyDto;

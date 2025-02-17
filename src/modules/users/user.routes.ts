@@ -14,25 +14,30 @@ const userRoutes = Router();
 const userController = new UserController();
 
 userRoutes.get("/users", authUser, userController.findAll);
+
 userRoutes.get("/users/:id", authUser, userController.findById);
+
 userRoutes.post(
   "/users",
   authUser,
   validateCreateUserDto,
   userController.create
 );
+
 userRoutes.put(
   "/users",
   authUser,
   validateUpdateUserDto,
   userController.update
 );
+
 userRoutes.patch(
   "/users/deactive/:id",
   authUser,
   userController.deactive);
+
 userRoutes.post(
-  "/signin/",
+  "/signin",
   validateSignInUserDto,
   userController.signIn
 );

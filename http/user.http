@@ -43,6 +43,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1MTRmZWZhL
 POST http://localhost:3005/api/signin
 Content-Type: application/json
 {
-    "email": "dev.azevedo1234@outlook.com",
+    "email": "dev.azevedo123@outlook.com",
     "password": "Jhow@1234"
 }

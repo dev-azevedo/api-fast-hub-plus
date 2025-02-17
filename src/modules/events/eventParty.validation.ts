@@ -3,15 +3,15 @@ import { plainToInstance } from "class-transformer";
 import { validate } from "class-validator";
 import httpStatus from "http-status";
 
-import CreateEventDto from "./dtos/createEvent.dto.js";
-import UpdateEventDto from "./dtos/updateEvent.dto.js";
+import CreateEventPartyDto from "./dtos/createEvent.dto.js";
+import UpdateEventPartyDto from "./dtos/updateEvent.dto.js";
 
-export const validateCreateEventDto = (
+export const validateCreateEventPartyDto = (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const eventData = plainToInstance(CreateEventDto, req.body);
+  const eventData = plainToInstance(CreateEventPartyDto, req.body);
 
   validate(eventData).then((errors) => {
     if (errors.length > 0) {
@@ -31,12 +31,12 @@ export const validateCreateEventDto = (
   });
 };
 
-export const validateUpdateEventDto = (
+export const validateUpdateEventPartyDto = (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const eventData = plainToInstance(UpdateEventDto, req.body);
+  const eventData = plainToInstance(UpdateEventPartyDto, req.body);
 
   validate(eventData).then((errors) => {
     if (errors.length > 0) {
