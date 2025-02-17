@@ -15,6 +15,21 @@ class ReservationMapper {
             updatedAt: new Date(),
         } as Reservation;
     }
+
+    public mapUpdateReservationDtoToReservation = (
+        reservation: CreateReservationDto,
+        reservationOnDb: Reservation
+    ): Reservation => {
+        return {
+          id: reservationOnDb.id,
+          userId: reservationOnDb.userId,
+          eventPartyId: reservationOnDb.eventPartyId,
+          amountReservations: reservation.amountReservations,
+          active: reservationOnDb.active,
+          createdAt: reservationOnDb.createdAt,
+          updatedAt: new Date(),
+        } as Reservation;
+    }
 }
 
 export default ReservationMapper;

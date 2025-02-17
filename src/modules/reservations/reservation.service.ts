@@ -64,8 +64,29 @@ class ReservationService {
 
         if (!reservationOnDb)
             throw new Error("Reservation not found");
+
+
+        const eventPartyOnDb = await this._eventPartyService.findById(
+        reservation.eventPartyId
+        );
+
+        const amountReservations: number = eventPartyOnDb.amountTickets - (eventPartyOnDb.amountReservations - reservationOnDb.amountReservations);
+
+        if (reservation.amountReservations > amountReservations)
+        throw new Error("Sorry, this event is full");
+
+        const reservationFormatted = this._mapper.mapUpdateReservationDtoToReservation(
+          reservation,
+          reservationOnDb
+        );
+
+        eventPartyOnDb.amountReservations =
+          (eventPartyOnDb.amountReservations -
+          reservationOnDb.amountReservations) +
+          reservation.amountReservations;
+        await this._eventPartyService.update(eventPartyOnDb);
         
-        return this._repository.update(reservation);
+        return this._repository.update(reservationFormatted);
     }
 
     public deactive = async (id: string): Promise<void> => {
