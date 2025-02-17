@@ -16,7 +16,7 @@ class EventPartyService {
 
   public findAll = async (): Promise<ResponseEventPartyDto[]> => {
     const eventsOnDb = await this._repository.findAll();
-    return this._mapper.mapEventsToResponse(eventsOnDb);
+    return this._mapper.mapEventsPartyToResponse(eventsOnDb);
   };
 
   public findById = async (id: string): Promise<ResponseEventPartyDto> => {
@@ -24,7 +24,7 @@ class EventPartyService {
 
     if (!eventPartyOnDb) throw new Error("Event not found");
 
-    return this._mapper.mapEventToResponse(eventPartyOnDb);
+    return this._mapper.mapEventPartyToResponse(eventPartyOnDb);
   };
 
   public create = async (eventParty: CreateEventPartyDto): Promise<ResponseEventPartyDto> => {
@@ -35,24 +35,23 @@ class EventPartyService {
 
     const eventPartyOnDb = await this._repository.createEvent(eventFormatted, userId);
 
-    return this._mapper.mapEventToResponse(eventPartyOnDb);
+    return this._mapper.mapEventPartyToResponse(eventPartyOnDb);
   };
 
   public update = async (event: UpdateEventPartyDto): Promise<ResponseEventPartyDto> => {
-    return new ResponseEventPartyDto();
-    // const eventPartyOnDb = await this.findById(event.id) as EventParty;
+    const eventPartyOnDb = await this.findById(event.id) as EventParty;
 
-    // if (!eventPartyOnDb) 
-    //     throw new Error("Event not found");
+    if (!eventPartyOnDb) 
+        throw new Error("Event not found");
 
-    // const eventFormatted = this._mapper.mapUpdateEventPartyDtoToEvent(
-    //   event,
-    //   eventPartyOnDb
-    // );
+    const eventFormatted = this._mapper.mapUpdateEventPartyDtoToEvent(
+      event,
+      eventPartyOnDb
+    );
 
-    // const updatedEvent = await this._repository.updateEvent(eventFormatted);
+    const updatedEvent = await this._repository.updateEvent(eventFormatted);
 
-    // return this._mapper.mapEventToResponse(updatedEvent);
+    return this._mapper.mapEventPartyToResponse(updatedEvent);
   };
 
   public deactiveEvent = async (id: string): Promise<void> => {

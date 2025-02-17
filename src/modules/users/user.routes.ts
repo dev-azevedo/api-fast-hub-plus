@@ -13,9 +13,17 @@ import { authUser } from "./../../shared/middlewares/auth.middleware.js";
 const userRoutes = Router();
 const userController = new UserController();
 
-userRoutes.get("/users", authUser, userController.findAll);
+userRoutes.get(
+  "/users", 
+  authUser, 
+  userController.findAll
+);
 
-userRoutes.get("/users/:id", authUser, userController.findById);
+userRoutes.get(
+  "/users/:id", 
+  authUser, 
+  userController.findById
+);
 
 userRoutes.post(
   "/users",
@@ -34,7 +42,8 @@ userRoutes.put(
 userRoutes.patch(
   "/users/deactive/:id",
   authUser,
-  userController.deactive);
+  userController.deactive
+);
 
 userRoutes.post(
   "/signin",
