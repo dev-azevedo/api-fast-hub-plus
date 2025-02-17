@@ -1,8 +1,6 @@
-export class ResponseUserDto {
+export class JwtUserDto {
     id!: string;
     name!: string;
     email!: string;
     role!: string;
-    token?: string;
-    createdAt!: Date;
 }

@@ -5,91 +5,114 @@ import { UpdateUserDto } from "./dtos/updateUser.dto.js";
 import { ResponseUserDto } from "./dtos/responseUser.dto.js";
 import * as bcrypt from "bcrypt";
 import { SignInUserDto } from "./dtos/signInUser.dto.js";
+import Jwt from "../../shared/utils/jwt.service.js";
+import UserMapper from "./user.mapper.js";
 
 class UserService {
-  private readonly userRepository: UserRepository;
-  private readonly userResponse: ResponseUserDto;
+  private readonly _repository: UserRepository;
+  private readonly _mapper: UserMapper;
+  private readonly jwt: Jwt;
 
   constructor() {
-    this.userRepository = new UserRepository();
-    this.userResponse = new ResponseUserDto();
+    this._repository = new UserRepository();
+    this._mapper = new UserMapper()
+    this.jwt = new Jwt();
   }
 
   public signIn = async (user: SignInUserDto): Promise<ResponseUserDto> => {
-    const userOnDb = await this.userRepository.findByEmail(user.email);
+    const userOnDb = await this._repository.findByEmail(user.email);
 
-    if (!userOnDb) {
-      throw new Error("Email or password invalid");
-    }
+    if (!userOnDb || !userOnDb.active) throw new Error("Email or password invalid");
 
-    const isPasswordCorrect = await this._validatePassword(user.password, userOnDb.password);
+    const isPasswordCorrect = await this._validatePassword(
+      user.password,
+      userOnDb.password
+    );
 
-    if (!isPasswordCorrect) {
-      throw new Error("Email or password invalid");
-    }
+    if (!isPasswordCorrect) throw new Error("Email or password invalid");
 
-    return this._mapUserToResponse(userOnDb);
-  }
+    const token = this.jwt.generateToken({
+      id: userOnDb.id,
+      name: userOnDb.name,
+      email: userOnDb.email,
+      role: userOnDb.role,
+    });
+
+    const userResponse = this._mapper.mapUserToResponse(userOnDb);
+    userResponse.token = token;
+
+    return userResponse;
+  };
 
   public createUser = async (user: CreateUserDto): Promise<ResponseUserDto> => {
-     const { confirmPassword, ...userData } = user;
-     userData.password = await this._hashPassword(userData.password);
+    const { confirmPassword, ...userData } = user;
+
+    if(userData.password !== confirmPassword)
+      throw new Error("Passwords do not match");
     
-    const userCreated = await this.userRepository.createUser(userData);
-    return this._mapUserToResponse(userCreated);
+    const useronDb = await this._repository.findByEmail(user.email);
+    
+    if (useronDb) {
+      throw new Error("Email already exists");
+    }
+    
+    const userFormatted = await this._mapper.mapCreateUserDtoToUser(user);
+
+    userFormatted.password = await this._hashPassword(userFormatted.password);
+
+    const userCreated = await this._repository.createUser(userFormatted);
+    return this._mapper.mapUserToResponse(userCreated);
   };
 
   public findAll = async (): Promise<ResponseUserDto[]> => {
-    const users = await this.userRepository.findAll();
-    return users.map((user) => this._mapUserToResponse(user));
+    const users = await this._repository.findAll();
+
+    return this._mapper.mapUsersToResponse(users);
   };
 
   public findById = async (id: string): Promise<ResponseUserDto> => {
-    const user = await this.userRepository.findById(id);
-
-    if (!user) {
-      throw new Error("User not found");
-    }
-
-    return this._mapUserToResponse(user);
-  };
-
-  public updateUser = async (user: UpdateUserDto): Promise<ResponseUserDto> => {
-    const userOnDb = await this.findById(user.id);
-
-     if (!userOnDb) {
-       throw new Error("User not found");
-     }
-
-    const userUpdate = await this.userRepository.updateUser(user);
-
-    return this._mapUserToResponse(userUpdate);
-  }
-
-  public deleteUser = async (id: string): Promise<void> => {
-    const userOnDb = await this.findById(id);
+    const userOnDb = await this._repository.findById(id);
 
     if (!userOnDb) {
       throw new Error("User not found");
     }
-    await this.userRepository.deleteUser(id);
-  }
 
-  private _mapUserToResponse = (user: User): ResponseUserDto => {
-     return {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      createdAt: user.createdAt,
-    };
+    return this._mapper.mapUserToResponse(userOnDb);
+  };
+
+  public updateUser = async (user: UpdateUserDto): Promise<ResponseUserDto> => {
+    const userOnDb = await this.findById(user.id) as User;
+
+    if (!userOnDb)
+      throw new Error("User not found");
+    
+    const userFormatted = await this._mapper.mapUpdateUserDtoToUser(
+      user,
+      userOnDb
+    );
+
+    const userUpdate = await this._repository.updateUser(userFormatted);
+
+    return this._mapper.mapUserToResponse(userUpdate);
+  };
+
+  public deactiveUser = async (id: string): Promise<void> => {
+    const userOnDb = await this.findById(id) as User;
+
+    if (!userOnDb)
+      throw new Error("User not found");
+
+    await this._repository.deactiveUser(userOnDb.id);
   };
 
   private _hashPassword = (password: string): Promise<string> => {
     return bcrypt.hash(password, 10);
   };
 
-  private _validatePassword = async ( userPassword: string, passowordOnDb: string): Promise<boolean> => {
+  private _validatePassword = async (
+    userPassword: string,
+    passowordOnDb: string
+  ): Promise<boolean> => {
     return await bcrypt.compare(userPassword, passowordOnDb);
   };
 }

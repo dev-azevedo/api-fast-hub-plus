@@ -16,26 +16,9 @@ class UserController {
   public signIn = async (req: Request, res: Response): Promise<void> => {
     const user: SignInUserDto = req.body;
 
-     try {
-       const userSignedIn = await this.userService.signIn(user);
-       res.status(httpStatus.OK).json(userSignedIn);
-     } catch (error) {
-       if (error instanceof Error) {
-         res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
-         return;
-       }
-
-       res
-         .status(httpStatus.INTERNAL_SERVER_ERROR)
-         .json({ message: "Internal server error" });
-     }
-  }
-
-  public findAll = async (req: Request, res: Response): Promise<void> => {
     try {
-      const users = await this.userService.findAll();
-      res.status(httpStatus.OK).json(users);
-
+      const userSignedIn = await this.userService.signIn(user);
+      res.status(httpStatus.OK).json(userSignedIn);
     } catch (error) {
       if (error instanceof Error) {
         res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
@@ -46,7 +29,23 @@ class UserController {
         .status(httpStatus.INTERNAL_SERVER_ERROR)
         .json({ message: "Internal server error" });
     }
-  }
+  };
+
+  public findAll = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const users = await this.userService.findAll();
+      res.status(httpStatus.OK).json(users);
+    } catch (error) {
+      if (error instanceof Error) {
+        res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
+        return;
+      }
+
+      res
+        .status(httpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "Internal server error" });
+    }
+  };
 
   public findById = async (req: Request, res: Response): Promise<void> => {
     const id: string = req.params.id;
@@ -64,7 +63,7 @@ class UserController {
         .status(httpStatus.INTERNAL_SERVER_ERROR)
         .json({ message: "Internal server error" });
     }
-  }
+  };
 
   public create = async (req: Request, res: Response): Promise<void> => {
     const user: CreateUserDto = req.body;
@@ -72,7 +71,8 @@ class UserController {
     try {
       const userCreated = await this.userService.createUser(user);
       res.status(httpStatus.CREATED).json(userCreated);
-    } catch (error) {
+    } 
+    catch (error) {
       if (error instanceof Error) {
         res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
         return;
@@ -82,7 +82,7 @@ class UserController {
         .status(httpStatus.INTERNAL_SERVER_ERROR)
         .json({ message: "Internal server error" });
     }
-  }
+  };
 
   public update = async (req: Request, res: Response): Promise<void> => {
     const user: UpdateUserDto = req.body;
@@ -100,13 +100,13 @@ class UserController {
         .status(httpStatus.INTERNAL_SERVER_ERROR)
         .json({ message: "Internal server error" });
     }
-  }
+  };
 
-  public delete = async (req: Request, res: Response): Promise<void> => {
+  public deactive = async (req: Request, res: Response): Promise<void> => {
     const id: string = req.params.id;
 
     try {
-      await this.userService.deleteUser(id);
+      await this.userService.deactiveUser(id);
       res.status(httpStatus.NO_CONTENT).json({ message: "User deleted" });
     } catch (error) {
       if (error instanceof Error) {
@@ -118,7 +118,7 @@ class UserController {
         .status(httpStatus.INTERNAL_SERVER_ERROR)
         .json({ message: "Internal server error" });
     }
-  }
+  };
 }
 
 export default UserController;

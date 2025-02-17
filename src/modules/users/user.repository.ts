@@ -7,21 +7,25 @@ class UserRepository {
   }
 
   public createUser = async (
-    user: Omit<User, "id" | "createdAt" | "updatedAt">): Promise<User> => {
+    user: User
+  ): Promise<User> => {
     return await this.prisma.user.create({
       data: user,
     });
-  }
+  };
 
   public findAll = async (): Promise<User[]> => {
-    return await this.prisma.user.findMany();
-  }
+    return await this.prisma.user.findMany({where: {active: true}});
+  };
 
   public findById = async (id: string): Promise<User | null> => {
     return await this.prisma.user.findUnique({
-      where: { id },
+      where: { 
+        id,
+        active: true
+       },
     });
-  }
+  };
 
   public findByEmail = async (email: string): Promise<User | null> => {
     return await this.prisma.user.findUnique({
@@ -29,18 +33,21 @@ class UserRepository {
     });
   };
 
-  public updateUser = async (user: Omit<User, "createdAt" | "updatedAt">): Promise<User> => {
+  public updateUser = async (
+    user: User
+  ): Promise<User> => {
     return await this.prisma.user.update({
       where: { id: user.id },
       data: user,
     });
-  }
+  };
 
-  public deleteUser = async (id: string): Promise<void> => {
-    await this.prisma.user.delete({
-      where: { id },
+  public deactiveUser = async (id: string): Promise<void> => {
+    await this.prisma.user.update({
+      where: { id: id },
+      data: { active: false },
     });
-  }
+  };
 }
 
 export default UserRepository;

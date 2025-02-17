@@ -1,4 +1,4 @@
-import { Router, Request, Response } from "express";
+import { Router } from "express";
 
 import UserController from "./user.controller.js";
 import {
@@ -6,18 +6,36 @@ import {
   validateSignInUserDto,
   validateUpdateUserDto,
 } from "./user.validation.js";
+import { authUser } from "./../../shared/middlewares/auth.middleware.js";
 
 
 
 const userRoutes = Router();
 const userController = new UserController();
 
-userRoutes.get("/users", userController.findAll);
-userRoutes.get("/users/:id", userController.findById);
-userRoutes.post("/users", validateCreateUserDto, userController.create);
-userRoutes.put("/users", validateUpdateUserDto, userController.update);
-userRoutes.delete("/users/:id", userController.delete);
-userRoutes.post("/signin/", validateSignInUserDto, userController.signIn);
+userRoutes.get("/users", authUser, userController.findAll);
+userRoutes.get("/users/:id", authUser, userController.findById);
+userRoutes.post(
+  "/users",
+  authUser,
+  validateCreateUserDto,
+  userController.create
+);
+userRoutes.put(
+  "/users",
+  authUser,
+  validateUpdateUserDto,
+  userController.update
+);
+userRoutes.patch(
+  "/users/deactive/:id",
+  authUser,
+  userController.deactive);
+userRoutes.post(
+  "/signin/",
+  validateSignInUserDto,
+  userController.signIn
+);
 
 export default userRoutes;
 
