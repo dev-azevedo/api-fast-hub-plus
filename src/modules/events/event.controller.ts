@@ -48,8 +48,9 @@ class EventController {
   };
 
   public deactive = async (req: Request, res: Response) => {
+    const id: string = req.params.id;
     try {
-      const event = await this._service.deactiveEvent(req.params.id);
+      await this._service.deactiveEvent(id);
       res.status(httpStatus.NO_CONTENT);
     } catch (error) {
       ErrorHandler.handleError(res, error);
