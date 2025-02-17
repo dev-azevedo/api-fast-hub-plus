@@ -12,11 +12,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1MTRmZWZhL
 Content-Type: application/json
 
 {
-    "name": "Test event 123",
+    "name": "Test event Test",
     "description": "Test event description",
     "eventDate": "2023-10-10T00:00:00.000Z",    
-    "amountTickets": 10,
-    "amountReservations": 0
+    "amountTickets": 50
 }
 
 
@@ -26,12 +25,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1MTRmZWZhL
 Content-Type: application/json
 
 {
-    "id": "28c2a7c6-f2d1-4514-8296-bf9a6b7e3657",
-    "name": "Test event 123",
+    "id": "5f128fd1-7d07-44c9-a02c-924575bcdfb9",
+     "name": "Test event Test",
     "description": "Test event description",
     "eventDate": "2023-10-10T00:00:00.000Z",    
-    "amountTickets": 10,
-    "amountReservations": 4
+    "amountTickets": 50,
+    "amountReservations": 15
 }
 
 

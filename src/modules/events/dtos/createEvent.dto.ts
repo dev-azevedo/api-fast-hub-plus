@@ -16,6 +16,8 @@ class CreateEventDto {
   @Min(1)
   amountTickets!: number;
 
+  @IsNumber()
+  @Min(0)
   amountReservations: number = 0;
   active: boolean = true;
 }
