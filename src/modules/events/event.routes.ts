@@ -12,5 +12,4 @@ eventRoutes.post("/events", authUser, eventController.create);
 eventRoutes.put("/events/", authUser, eventController.update);
 eventRoutes.patch("/events/:id", authUser, eventController.deactive);
 
-
 export default eventRoutes;
