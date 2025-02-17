@@ -7,11 +7,11 @@ import { UpdateUserDto } from "./dtos/updateUser.dto.js";
 import { SignInUserDto } from "./dtos/signInUser.dto.js";
 
 class UserController {
-  private userService: UserService;
-
-  constructor() {
-    this.userService = new UserService();
-  }
+    private userService: UserService;
+    
+    constructor() {
+        this.userService = new UserService();
+    }
 
   public signIn = async (req: Request, res: Response): Promise<void> => {
     const user: SignInUserDto = req.body;

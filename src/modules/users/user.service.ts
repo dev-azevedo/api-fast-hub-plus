@@ -5,30 +5,34 @@ import { UpdateUserDto } from "./dtos/updateUser.dto.js";
 import { ResponseUserDto } from "./dtos/responseUser.dto.js";
 import * as bcrypt from "bcrypt";
 import { SignInUserDto } from "./dtos/signInUser.dto.js";
+import Jwt from "../../shared/utils/jwt.service.js";
 
 class UserService {
   private readonly userRepository: UserRepository;
-  private readonly userResponse: ResponseUserDto;
+  private readonly jwt: Jwt;
 
   constructor() {
     this.userRepository = new UserRepository();
-    this.userResponse = new ResponseUserDto();
+    this.jwt = new Jwt();
   }
 
   public signIn = async (user: SignInUserDto): Promise<ResponseUserDto> => {
     const userOnDb = await this.userRepository.findByEmail(user.email);
 
-    if (!userOnDb) {
+    if (!userOnDb)
       throw new Error("Email or password invalid");
-    }
 
     const isPasswordCorrect = await this._validatePassword(user.password, userOnDb.password);
 
-    if (!isPasswordCorrect) {
+    if (!isPasswordCorrect)
       throw new Error("Email or password invalid");
-    }
 
-    return this._mapUserToResponse(userOnDb);
+    const token = this.jwt.generateToken({ id: userOnDb.id, name: userOnDb.name, email: userOnDb.email, role: userOnDb.role });
+
+    const userResponse = this._mapUserToResponse(userOnDb);
+    userResponse.token = token;
+
+    return userResponse;
   }
 
   public createUser = async (user: CreateUserDto): Promise<ResponseUserDto> => {

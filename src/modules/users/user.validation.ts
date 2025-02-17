@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { plainToInstance } from "class-transformer";
-import { validate } from "class-validator";// Ajuste o caminho conforme necessário
+import { validate } from "class-validator";
+import httpStatus from "http-status";
+
 import { CreateUserDto } from "./dtos/createUser.dto.js";
 import { UpdateUserDto } from "./dtos/updateUser.dto.js";
 import { SignInUserDto } from "./dtos/signInUser.dto.js";
@@ -22,7 +24,7 @@ export const validateCreateUserDto = (
       });
 
       return res
-        .status(400)
+        .status(httpStatus.BAD_REQUEST)
         .json({ message: "Validation failed", errors: validationErrors });
     }
 
@@ -48,11 +50,10 @@ export const validateUpdateUserDto = (
       });
 
       return res
-        .status(400)
+        .status(httpStatus.BAD_REQUEST)
         .json({ message: "Validation failed", errors: validationErrors });
     }
 
-    // Se não houver erros, continue para o próximo middleware ou rota
     next();
   });
   
@@ -75,11 +76,10 @@ export const validateSignInUserDto = (
       });
 
       return res
-        .status(400)
+        .status(httpStatus.BAD_REQUEST)
         .json({ message: "Validation failed", errors: validationErrors });
     }
 
-    // Se não houver erros, continue para o próximo middleware ou rota
     next();
   });
 

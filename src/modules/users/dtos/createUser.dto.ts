@@ -1,5 +1,5 @@
 import { ETypeUser } from "@prisma/client";
-import { IsEmail, IsEnum, IsString, Length, Matches, Validate, ValidateIf, ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from "class-validator";
+import { IsEmail, IsEnum, IsString, Length, Validate, ValidateIf, ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from "class-validator";
 
 @ValidatorConstraint({ name: "MatchPasswords", async: false })
 export class MatchPasswords implements ValidatorConstraintInterface {
@@ -34,6 +34,8 @@ export class CreateUserDto {
 
   @IsEnum(ETypeUser)
   role!: ETypeUser;
+
+  active: boolean = true;
 }
 
 
