@@ -33,7 +33,7 @@ class UserService {
     return this._mapUserToResponse(user);
   };
 
-  async updateUser(user: UpdateUserDto): Promise<ResponseUserDto> {
+  public updateUser = async (user: UpdateUserDto): Promise<ResponseUserDto> => {
     const userOnDb = await this.findById(user.id);
 
      if (!userOnDb) {

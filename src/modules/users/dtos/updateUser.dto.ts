@@ -1,5 +1,7 @@
+import { IsUUID } from "class-validator";
 import { CreateUserDto } from "./createUser.dto.js";
 
-export interface UpdateUserDto extends CreateUserDto {
-    id: string;
+export class UpdateUserDto extends CreateUserDto {
+    @IsUUID()
+    id!: string;
 }
