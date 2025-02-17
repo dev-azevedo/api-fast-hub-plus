@@ -19,6 +19,7 @@ export const authUser = (req: Request, res: Response, next: NextFunction): void 
   try {
     const decoded = jwt.verifyToken(token);
     if (decoded.id) {
+      req.body.userId = decoded.id;
       next();
       return;
     }
