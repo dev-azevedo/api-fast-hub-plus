@@ -2,7 +2,7 @@
   "name": "api-fest-hub-plus",
   "version": "1.0.0",
   "description": "System event reservation api",
-  "main": "index.js",
+  "main": "dist/index.js",
   "repository": "https://github.com/dev-azevedo/api-fast-hub-plus.git",
   "author": "Jhonatan Azevedo <dev.azevedo@outlook.com>",
   "license": "MIT",
@@ -10,14 +10,13 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsx --watch src/index.ts",
-    "start": "node dist/index.js",
-    "prisma:generate": "prisma generate",
+    "start": "node .",
+    "prisma:generate": "prisma generate --schema=src/prisma/schema.prisma",
     "prisma:migrate": "prisma migrate dev --schema=src/prisma/schema.prisma",
-    "prisma:migrate:deploy": "prisma migrate deploy",
+    "prisma:migrate:deploy": "prisma migrate deploy --schema=src/prisma/schema.prisma",
     "prisma:studio": "prisma studio"
   },
   "dependencies": {
-    "@prisma/client": "^6.3.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "cors": "^2.8.5",
@@ -26,6 +25,7 @@
     "http-status": "^2.1.0"
   },
   "devDependencies": {
+    "@prisma/client": "^6.3.1",
     "@types/express": "^5.0.0",
     "@types/node": "^22.13.4",
     "prisma": "^6.3.1",
