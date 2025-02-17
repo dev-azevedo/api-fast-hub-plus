@@ -6,31 +6,37 @@ class UserRepository {
     this.prisma = new PrismaClient();
   }
 
-  async createUser(
-    user: Omit<User, "id" | "createdAt" | "updatedAt">): Promise<User> {
+  public createUser = async (
+    user: Omit<User, "id" | "createdAt" | "updatedAt">): Promise<User> => {
     return await this.prisma.user.create({
       data: user,
     });
   }
 
-  async findAll(): Promise<User[]> {
+  public findAll = async (): Promise<User[]> => {
     return await this.prisma.user.findMany();
   }
 
-  async findById(id: string): Promise<User | null> {
+  public findById = async (id: string): Promise<User | null> => {
     return await this.prisma.user.findUnique({
       where: { id },
     });
   }
 
-  async updateUser(user: Omit<User, "createdAt" | "updatedAt">): Promise<User> {
+  public findByEmail = async (email: string): Promise<User | null> => {
+    return await this.prisma.user.findUnique({
+      where: { email },
+    });
+  };
+
+  public updateUser = async (user: Omit<User, "createdAt" | "updatedAt">): Promise<User> => {
     return await this.prisma.user.update({
       where: { id: user.id },
       data: user,
     });
   }
 
-  async deleteUser(id: string): Promise<void> {
+  public deleteUser = async (id: string): Promise<void> => {
     await this.prisma.user.delete({
       where: { id },
     });

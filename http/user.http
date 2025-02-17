@@ -34,3 +34,13 @@ Content-Type: application/json
 
 ### Delete user
 DELETE http://localhost:3005/api/users/e690f156-d830-4579-83bd-09c4d7351d77
+
+
+### Sign in user
+POST http://localhost:3005/api/signin
+Content-Type: application/json
+
+{
+    "email": "dev.azevedo1234@outlook.com",
+    "password": "Jhow@1234"
+}
