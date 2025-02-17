@@ -31,7 +31,7 @@ class UserRepository {
   };
 
   public updateUser = async (
-    user: Omit<User, "createdAt" | "updatedAt">
+    user: User
   ): Promise<User> => {
     return await this.prisma.user.update({
       where: { id: user.id },
