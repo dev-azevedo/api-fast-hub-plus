@@ -4,6 +4,7 @@ import httpStatus from "http-status";
 
 import { CreateUserDto } from "./dtos/createUser.dto.js";
 import { UpdateUserDto } from "./dtos/updateUser.dto.js";
+import { SignInUserDto } from "./dtos/signInUser.dto.js";
 
 class UserController {
   private userService: UserService;
@@ -12,6 +13,23 @@ class UserController {
     this.userService = new UserService();
   }
 
+  public signIn = async (req: Request, res: Response): Promise<void> => {
+    const user: SignInUserDto = req.body;
+
+     try {
+       const userSignedIn = await this.userService.signIn(user);
+       res.status(httpStatus.OK).json(userSignedIn);
+     } catch (error) {
+       if (error instanceof Error) {
+         res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
+         return;
+       }
+
+       res
+         .status(httpStatus.INTERNAL_SERVER_ERROR)
+         .json({ message: "Internal server error" });
+     }
+  }
 
   public findAll = async (req: Request, res: Response): Promise<void> => {
     try {

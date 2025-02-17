@@ -4,6 +4,7 @@ import UserRepository from "./user.repository.js";
 import { UpdateUserDto } from "./dtos/updateUser.dto.js";
 import { ResponseUserDto } from "./dtos/responseUser.dto.js";
 import * as bcrypt from "bcrypt";
+import { SignInUserDto } from "./dtos/signInUser.dto.js";
 
 class UserService {
   private readonly userRepository: UserRepository;
@@ -12,6 +13,22 @@ class UserService {
   constructor() {
     this.userRepository = new UserRepository();
     this.userResponse = new ResponseUserDto();
+  }
+
+  public signIn = async (user: SignInUserDto): Promise<ResponseUserDto> => {
+    const userOnDb = await this.userRepository.findByEmail(user.email);
+
+    if (!userOnDb) {
+      throw new Error("Email or password invalid");
+    }
+
+    const isPasswordCorrect = await this._validatePassword(user.password, userOnDb.password);
+
+    if (!isPasswordCorrect) {
+      throw new Error("Email or password invalid");
+    }
+
+    return this._mapUserToResponse(userOnDb);
   }
 
   public createUser = async (user: CreateUserDto): Promise<ResponseUserDto> => {
@@ -70,6 +87,10 @@ class UserService {
 
   private _hashPassword = (password: string): Promise<string> => {
     return bcrypt.hash(password, 10);
+  };
+
+  private _validatePassword = async ( userPassword: string, passowordOnDb: string): Promise<boolean> => {
+    return await bcrypt.compare(userPassword, passowordOnDb);
   };
 }
 
