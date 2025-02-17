@@ -7,7 +7,7 @@ class UserRepository {
   }
 
   public createUser = async (
-    user: Omit<User, "id" | "createdAt" | "updatedAt">
+    user: User
   ): Promise<User> => {
     return await this.prisma.user.create({
       data: user,
@@ -19,31 +19,18 @@ class UserRepository {
   };
 
   public findById = async (id: string): Promise<User | null> => {
-    const userOnDb = await this.prisma.user.findUnique({
+    return await this.prisma.user.findUnique({
       where: { 
         id,
         active: true
        },
     });
-
-    if (userOnDb) {
-      return userOnDb;
-    }
-
-    return null;
   };
 
   public findByEmail = async (email: string): Promise<User | null> => {
-    const userOnDb = await this.prisma.user.findUnique({
+    return await this.prisma.user.findUnique({
       where: { email },
     });
-
-    
-    if (userOnDb) {
-      return userOnDb;
-    }
-
-    return null;
   };
 
   public updateUser = async (

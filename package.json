@@ -24,7 +24,8 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "http-status": "^2.1.0",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "uuid": "^11.0.5"
   },
   "devDependencies": {
     "@prisma/client": "^6.3.1",

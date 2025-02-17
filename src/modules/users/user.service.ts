@@ -22,7 +22,7 @@ class UserService {
   public signIn = async (user: SignInUserDto): Promise<ResponseUserDto> => {
     const userOnDb = await this._repository.findByEmail(user.email);
 
-    if (!userOnDb) throw new Error("Email or password invalid");
+    if (!userOnDb || !userOnDb.active) throw new Error("Email or password invalid");
 
     const isPasswordCorrect = await this._validatePassword(
       user.password,
@@ -54,7 +54,8 @@ class UserService {
       throw new Error("Email already exists");
     }
 
-    const userCreated = await this._repository.createUser(userData);
+    const userFormatted = await this._mapper.mapCreateUserDtoToUser(user);
+    const userCreated = await this._repository.createUser(userFormatted);
     return this._mapper.mapUserToResponse(userCreated);
   };
 
