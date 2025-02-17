@@ -11,8 +11,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1MTRmZWZhL
 POST http://localhost:3005/api/users
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1MTRmZWZhLWQ3OWEtNDBmMy1iYjY5LWMwOTEwMzQzNjJkYyIsIm5hbWUiOiJKaG9uYXRhbiBBemV2ZWRvIiwiZW1haWwiOiJkZXYuYXpldmVkbzEyMzRAb3V0bG9vay5jb20iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3Mzk3OTQ5NjIsImV4cCI6MTczOTg4MTM2Mn0.fRhKbhBvv2XmrLFMvuLau0k3f5EKn34c2ccwPX65wfw
 Content-Type: application/json
-
-
 {
     "name": "Jhonatan Azevedo",
     "email": "dev.azevedo123@outlook.com",
@@ -26,7 +24,6 @@ Content-Type: application/json
 PUT http://localhost:3005/api/users
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1MTRmZWZhLWQ3OWEtNDBmMy1iYjY5LWMwOTEwMzQzNjJkYyIsIm5hbWUiOiJKaG9uYXRhbiBBemV2ZWRvIiwiZW1haWwiOiJkZXYuYXpldmVkbzEyMzRAb3V0bG9vay5jb20iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3Mzk3OTQ5NjIsImV4cCI6MTczOTg4MTM2Mn0.fRhKbhBvv2XmrLFMvuLau0k3f5EKn34c2ccwPX65wfw
 Content-Type: application/json
-
 {
     "id": "6278050d-0da3-4b34-85a1-20e19c081f71",
     "name": "Jhonatan Azevedo123123123",
@@ -43,7 +40,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1MTRmZWZhL
 ### Sign in user
 POST http://localhost:3005/api/signin
 Content-Type: application/json
-
 {
     "email": "dev.azevedo1234@outlook.com",
     "password": "Jhow@1234"
