@@ -44,6 +44,6 @@ POST http://localhost:3005/api/signin
 Content-Type: application/json
 
 {
-    "email": "dev.azevedo123@outlook.com",
-    "password": "Jhow@1234"
+    "email": "dev.azevedo@outlook.com",
+    "password": "Jhow@123"
 }

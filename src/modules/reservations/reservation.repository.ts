@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient, Reservation } from "@prisma/client";
+import { EventParty, Prisma, PrismaClient, Reservation, User } from "@prisma/client";
 import { DefaultArgs } from "@prisma/client/runtime/library";
 
 class ReservationRepository {
@@ -19,6 +19,13 @@ class ReservationRepository {
   public findById = async (id: string): Promise<Reservation | null> => {
     return await this._model.findUnique({
       where: { id, active: true },
+    });
+  };
+
+  public findByUserIdAndEventPartyId = async (userId: string, eventPartyId: string): Promise<Reservation & { user: User, eventParty: EventParty } | null> => {
+    return await this._model.findFirst({
+      where: { userId: userId, eventPartyId: eventPartyId, active: true },
+      include: { user: true, eventParty: true },
     });
   };
 

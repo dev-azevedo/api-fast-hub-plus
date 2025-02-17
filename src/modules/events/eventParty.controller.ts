@@ -50,7 +50,7 @@ class EventPartyController {
   public deactive = async (req: Request, res: Response) => {
     const id: string = req.params.id;
     try {
-      await this._service.deactiveEvent(id);
+      await this._service.deactive(id);
       res.status(httpStatus.NO_CONTENT);
     } catch (error) {
       ErrorHandler.handleError(res, error);
