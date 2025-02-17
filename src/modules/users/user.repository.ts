@@ -1,25 +1,25 @@
 import { PrismaClient, User } from "@prisma/client";
 
 class UserRepository {
-  private readonly prisma: PrismaClient;
+  private readonly _prisma: PrismaClient;
   constructor() {
-    this.prisma = new PrismaClient();
+    this._prisma = new PrismaClient();
   }
 
   public createUser = async (
     user: User
   ): Promise<User> => {
-    return await this.prisma.user.create({
+    return await this._prisma.user.create({
       data: user,
     });
   };
 
   public findAll = async (): Promise<User[]> => {
-    return await this.prisma.user.findMany({where: {active: true}});
+    return await this._prisma.user.findMany({where: {active: true}});
   };
 
   public findById = async (id: string): Promise<User | null> => {
-    return await this.prisma.user.findUnique({
+    return await this._prisma.user.findUnique({
       where: { 
         id,
         active: true
@@ -28,7 +28,7 @@ class UserRepository {
   };
 
   public findByEmail = async (email: string): Promise<User | null> => {
-    return await this.prisma.user.findUnique({
+    return await this._prisma.user.findUnique({
       where: { email },
     });
   };
@@ -36,14 +36,14 @@ class UserRepository {
   public updateUser = async (
     user: User
   ): Promise<User> => {
-    return await this.prisma.user.update({
+    return await this._prisma.user.update({
       where: { id: user.id },
       data: user,
     });
   };
 
   public deactiveUser = async (id: string): Promise<void> => {
-    await this.prisma.user.update({
+    await this._prisma.user.update({
       where: { id: id },
       data: { active: false },
     });
