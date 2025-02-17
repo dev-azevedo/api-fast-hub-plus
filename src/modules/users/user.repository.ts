@@ -6,24 +6,16 @@ class UserRepository {
     this._prisma = new PrismaClient();
   }
 
-  public createUser = async (
-    user: User
-  ): Promise<User> => {
-    return await this._prisma.user.create({
-      data: user,
-    });
-  };
-
   public findAll = async (): Promise<User[]> => {
-    return await this._prisma.user.findMany({where: {active: true}});
+    return await this._prisma.user.findMany({ where: { active: true } });
   };
 
   public findById = async (id: string): Promise<User | null> => {
     return await this._prisma.user.findUnique({
-      where: { 
+      where: {
         id,
-        active: true
-       },
+        active: true,
+      },
     });
   };
 
@@ -33,16 +25,20 @@ class UserRepository {
     });
   };
 
-  public updateUser = async (
-    user: User
-  ): Promise<User> => {
+  public create = async (user: User): Promise<User> => {
+    return await this._prisma.user.create({
+      data: user,
+    });
+  };
+
+  public update = async (user: User): Promise<User> => {
     return await this._prisma.user.update({
       where: { id: user.id },
       data: user,
     });
   };
 
-  public deactiveUser = async (id: string): Promise<void> => {
+  public deactive = async (id: string): Promise<void> => {
     await this._prisma.user.update({
       where: { id: id },
       data: { active: false },

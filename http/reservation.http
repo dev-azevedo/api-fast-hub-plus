@@ -13,7 +13,7 @@ Content-Type: application/json
 
 {
     "userId": "e38624bb-88cd-46ca-babd-dbcdea22daa8",
-    "eventPartyId": "b9a8b906-8203-4449-9192-8bb675798a83",
+    "eventPartyId": "9bca2ea2-9555-459f-8313-fafe6365a7c3",
     "amountReservations": 15
 }
 
@@ -26,8 +26,8 @@ Content-Type: application/json
 {
     "id": "9227795e-b241-44fb-bcb7-3be1c98091cd",
     "userId": "e38624bb-88cd-46ca-babd-dbcdea22daa8",
-    "eventPartyId": "b9a8b906-8203-4449-9192-8bb675798a83",
-    "amountReservations": 16
+    "eventPartyId": "9bca2ea2-9555-459f-8313-fafe6365a7c3",
+    "amountReservations": 15
 }
 
 
