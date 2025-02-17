@@ -3,6 +3,7 @@ import { CreateUserDto } from "./dtos/createUser.dto.js";
 import UserRepository from "./user.repository.js";
 import { UpdateUserDto } from "./dtos/updateUser.dto.js";
 import { ResponseUserDto } from "./dtos/responseUser.dto.js";
+import * as bcrypt from "bcrypt";
 
 class UserService {
   private readonly userRepository: UserRepository;
@@ -14,6 +15,7 @@ class UserService {
   }
 
   public createUser = async (user: CreateUserDto): Promise<ResponseUserDto> => {
+    user.password = await this._hashPassword(user.password);
     const userCreated = await this.userRepository.createUser(user);
     return this._mapUserToResponse(userCreated);
   };
@@ -62,6 +64,10 @@ class UserService {
       role: user.role,
       createdAt: user.createdAt,
     };
+  };
+
+  private _hashPassword = (password: string): Promise<string> => {
+    return bcrypt.hash(password, 10);
   };
 }
 
