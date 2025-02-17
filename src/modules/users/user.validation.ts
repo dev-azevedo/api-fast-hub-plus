@@ -1,19 +1,30 @@
-import { validate } from "class-validator";
+import { Request, Response, NextFunction } from "express";
+import { plainToInstance } from "class-transformer";
+import { validate } from "class-validator";// Ajuste o caminho conforme necessário
 import { CreateUserDto } from "./dtos/createUser.dto.js";
-import { plainToClass } from "class-transformer";
 
-class UserValidation {
-  async createUser(userData: ReadableStream<any> | null): Promise<CreateUserDto> {
-    const user = plainToClass(CreateUserDto, userData);
+export const validateCreateUserDto = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) =>{
+  const userData = plainToInstance(CreateUserDto, req.body);
 
-    const errors = await validate(user);
-
+  validate(userData).then((errors) => {
     if (errors.length > 0) {
-      throw new Error("User invalid");
+      const validationErrors = errors.map((error) => {
+        return {
+          property: error.property,
+          constraints: error.constraints,
+        };
+      });
+
+      return res
+        .status(400)
+        .json({ message: "Validation failed", errors: validationErrors });
     }
 
-    return user;
-  }
+    // Se não houver erros, continue para o próximo middleware ou rota
+    next();
+  });
 }
-
-export default UserValidation;
