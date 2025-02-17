@@ -33,7 +33,7 @@ class EventPartyService {
     const eventFormatted =
       this._mapper.mapCreateEventPartyDtoToEvent(eventPartyData as CreateEventPartyDto);
 
-    const eventPartyOnDb = await this._repository.createEvent(eventFormatted, userId);
+    const eventPartyOnDb = await this._repository.create(eventFormatted, userId);
 
     return this._mapper.mapEventPartyToResponse(eventPartyOnDb);
   };
@@ -49,13 +49,13 @@ class EventPartyService {
       eventPartyOnDb
     );
 
-    const updatedEvent = await this._repository.updateEvent(eventFormatted);
+    const updatedEvent = await this._repository.update(eventFormatted);
 
     return this._mapper.mapEventPartyToResponse(updatedEvent);
   };
 
   public deactiveEvent = async (id: string): Promise<void> => {
-    await this._repository.deactiveEvent(id);
+    await this._repository.deactive(id);
   };
 }   
 

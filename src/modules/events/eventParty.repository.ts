@@ -26,7 +26,7 @@ class EventPartyRepository {
     });
   };
 
-  public createEvent = async (
+  public create = async (
     eventParty: Omit<EventParty, "userId">,
     userId: string
   ): Promise<EventParty> => {
@@ -38,14 +38,14 @@ class EventPartyRepository {
     });
   };
 
-  public updateEvent = async (event: EventParty): Promise<EventParty> => {
+  public update = async (event: EventParty): Promise<EventParty> => {
     return await this._model.update({
       where: { id: event.id },
       data: event,
     });
   };
 
-  public deactiveEvent = async (id: string): Promise<void> => {
+  public deactive = async (id: string): Promise<void> => {
     await this._model.update({
       where: { id: id },
       data: { active: false },
