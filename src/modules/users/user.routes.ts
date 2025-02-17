@@ -8,7 +8,8 @@ const userRoutes = Router();
 const userController = new UserController();
 
 userRoutes.post("/users", validateCreateUserDto, userController.create);
-userRoutes.get("/users", validateCreateUserDto, userController.findAll);
+userRoutes.get("/users", userController.findAll);
+userRoutes.get("/users/:id", userController.findById);
 
 export default userRoutes;
 

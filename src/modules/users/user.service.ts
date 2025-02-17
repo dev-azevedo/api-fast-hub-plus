@@ -55,7 +55,13 @@ class UserService {
   }
 
   private _mapUserToResponse = (user: User): ResponseUserDto => {
-    return Object.assign(this.userResponse, user);
+     return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      createdAt: user.createdAt,
+    };
   };
 }
 

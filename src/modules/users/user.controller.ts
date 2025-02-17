@@ -15,7 +15,25 @@ class UserController {
     try {
       const users = await this.userService.findAll();
       res.status(httpStatus.OK).json(users);
-      
+
+    } catch (error) {
+      if (error instanceof Error) {
+        res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
+        return;
+      }
+
+      res
+        .status(httpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "Internal server error" });
+    }
+  }
+
+  public findById = async (req: Request, res: Response): Promise<void> => {
+    const id: string = req.params.id;
+
+    try {
+      const user = await this.userService.findById(id);
+      res.status(httpStatus.OK).json(user);
     } catch (error) {
       if (error instanceof Error) {
         res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
