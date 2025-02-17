@@ -83,6 +83,24 @@ class UserController {
         .json({ message: "Internal server error" });
     }
   }
+
+  public delete = async (req: Request, res: Response): Promise<void> => {
+    const id: string = req.params.id;
+
+    try {
+      await this.userService.deleteUser(id);
+      res.status(httpStatus.NO_CONTENT).json({ message: "User deleted" });
+    } catch (error) {
+      if (error instanceof Error) {
+        res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
+        return;
+      }
+
+      res
+        .status(httpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "Internal server error" });
+    }
+  }
 }
 
 export default UserController;

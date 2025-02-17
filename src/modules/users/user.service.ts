@@ -45,7 +45,7 @@ class UserService {
     return this._mapUserToResponse(userUpdate);
   }
 
-  async deleteUser(id: string): Promise<void> {
+  public deleteUser = async (id: string): Promise<void> => {
     const userOnDb = await this.findById(id);
 
     if (!userOnDb) {

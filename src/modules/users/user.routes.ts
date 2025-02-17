@@ -15,6 +15,7 @@ userRoutes.get("/users", userController.findAll);
 userRoutes.get("/users/:id", userController.findById);
 userRoutes.post("/users", validateCreateUserDto, userController.create);
 userRoutes.put("/users", validateUpdateUserDto, userController.update);
+userRoutes.delete("/users/:id", userController.delete);
 
 export default userRoutes;
 

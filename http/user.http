@@ -29,3 +29,7 @@ Content-Type: application/json
     "password": "Jhow@1234",
     "role": "ADMIN"
 }
+
+
+### Delete user
+DELETE http://localhost:3005/api/users/e690f156-d830-4579-83bd-09c4d7351d77
