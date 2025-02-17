@@ -46,15 +46,17 @@ class UserService {
 
   public createUser = async (user: CreateUserDto): Promise<ResponseUserDto> => {
     const { confirmPassword, ...userData } = user;
-    userData.password = await this._hashPassword(userData.password);
-
+    
     const useronDb = await this._repository.findByEmail(user.email);
-
+    
     if (useronDb) {
       throw new Error("Email already exists");
     }
-
+    
     const userFormatted = await this._mapper.mapCreateUserDtoToUser(user);
+
+    userFormatted.password = await this._hashPassword(userFormatted.password);
+
     const userCreated = await this._repository.createUser(userFormatted);
     return this._mapper.mapUserToResponse(userCreated);
   };
