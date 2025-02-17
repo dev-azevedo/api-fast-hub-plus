@@ -12,8 +12,9 @@ Content-Type: application/json
 
 {
     "name": "Jhonatan Azevedo",
-    "email": "dev.azevedo123@outlook.com",
+    "email": "dev.azevedo1234@outlook.com",
     "password": "Jhow@1234",
+    "confirmPassword": "Jhow@1234",
     "role": "ADMIN"
 }
 

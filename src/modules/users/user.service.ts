@@ -15,8 +15,10 @@ class UserService {
   }
 
   public createUser = async (user: CreateUserDto): Promise<ResponseUserDto> => {
-    user.password = await this._hashPassword(user.password);
-    const userCreated = await this.userRepository.createUser(user);
+     const { confirmPassword, ...userData } = user;
+     userData.password = await this._hashPassword(userData.password);
+    
+    const userCreated = await this.userRepository.createUser(userData);
     return this._mapUserToResponse(userCreated);
   };
 
