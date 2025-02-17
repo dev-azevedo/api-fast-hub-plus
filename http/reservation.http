@@ -24,10 +24,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1MTRmZWZhL
 Content-Type: application/json
 
 {
-    "id": "9227795e-b241-44fb-bcb7-3be1c98091cd",
+    "id": "f6b93565-fd57-40a3-ba9d-44836be80c62",
     "userId": "e38624bb-88cd-46ca-babd-dbcdea22daa8",
     "eventPartyId": "9bca2ea2-9555-459f-8313-fafe6365a7c3",
-    "amountReservations": 15
+    "amountReservations": 17
 }
 
 
