@@ -19,26 +19,32 @@ class UserService {
   public signIn = async (user: SignInUserDto): Promise<ResponseUserDto> => {
     const userOnDb = await this.userRepository.findByEmail(user.email);
 
-    if (!userOnDb)
-      throw new Error("Email or password invalid");
+    if (!userOnDb) throw new Error("Email or password invalid");
 
-    const isPasswordCorrect = await this._validatePassword(user.password, userOnDb.password);
+    const isPasswordCorrect = await this._validatePassword(
+      user.password,
+      userOnDb.password
+    );
 
-    if (!isPasswordCorrect)
-      throw new Error("Email or password invalid");
+    if (!isPasswordCorrect) throw new Error("Email or password invalid");
 
-    const token = this.jwt.generateToken({ id: userOnDb.id, name: userOnDb.name, email: userOnDb.email, role: userOnDb.role });
+    const token = this.jwt.generateToken({
+      id: userOnDb.id,
+      name: userOnDb.name,
+      email: userOnDb.email,
+      role: userOnDb.role,
+    });
 
     const userResponse = this._mapUserToResponse(userOnDb);
     userResponse.token = token;
 
     return userResponse;
-  }
+  };
 
   public createUser = async (user: CreateUserDto): Promise<ResponseUserDto> => {
-     const { confirmPassword, ...userData } = user;
-     userData.password = await this._hashPassword(userData.password);
-    
+    const { confirmPassword, ...userData } = user;
+    userData.password = await this._hashPassword(userData.password);
+
     const userCreated = await this.userRepository.createUser(userData);
     return this._mapUserToResponse(userCreated);
   };
@@ -61,26 +67,26 @@ class UserService {
   public updateUser = async (user: UpdateUserDto): Promise<ResponseUserDto> => {
     const userOnDb = await this.findById(user.id);
 
-     if (!userOnDb) {
-       throw new Error("User not found");
-     }
+    if (!userOnDb) {
+      throw new Error("User not found");
+    }
 
     const userUpdate = await this.userRepository.updateUser(user);
 
     return this._mapUserToResponse(userUpdate);
-  }
+  };
 
-  public deleteUser = async (id: string): Promise<void> => {
-    const userOnDb = await this.findById(id);
+  public deactiveUser = async (id: string): Promise<void> => {
+    const userOnDb = await this.findById(id) as User;
 
-    if (!userOnDb) {
+    if (!userOnDb)
       throw new Error("User not found");
-    }
-    await this.userRepository.deleteUser(id);
-  }
+
+    await this.userRepository.deactiveUser(userOnDb.id);
+  };
 
   private _mapUserToResponse = (user: User): ResponseUserDto => {
-     return {
+    return {
       id: user.id,
       name: user.name,
       email: user.email,
@@ -93,7 +99,10 @@ class UserService {
     return bcrypt.hash(password, 10);
   };
 
-  private _validatePassword = async ( userPassword: string, passowordOnDb: string): Promise<boolean> => {
+  private _validatePassword = async (
+    userPassword: string,
+    passowordOnDb: string
+  ): Promise<boolean> => {
     return await bcrypt.compare(userPassword, passowordOnDb);
   };
 }

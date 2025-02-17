@@ -27,7 +27,10 @@ userRoutes.put(
   validateUpdateUserDto,
   userController.update
 );
-userRoutes.delete("/users/:id", authUser, userController.delete);
+userRoutes.patch(
+  "/users/deactive/:id",
+  authUser,
+  userController.deactive);
 userRoutes.post(
   "/signin/",
   validateSignInUserDto,
