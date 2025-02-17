@@ -1,0 +1,18 @@
+### Get all reservations
+GET http://localhost:3005/api/reservations
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1MTRmZWZhLWQ3OWEtNDBmMy1iYjY5LWMwOTEwMzQzNjJkYyIsIm5hbWUiOiJKaG9uYXRhbiBBemV2ZWRvIiwiZW1haWwiOiJkZXYuYXpldmVkbzEyMzRAb3V0bG9vay5jb20iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3Mzk3OTQ5NjIsImV4cCI6MTczOTg4MTM2Mn0.fRhKbhBvv2XmrLFMvuLau0k3f5EKn34c2ccwPX65wfw
+
+### Get reservation by id
+GET http://localhost:3005/api/reservations/b9a8b906-8203-4449-9192-8bb675798a83
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1MTRmZWZhLWQ3OWEtNDBmMy1iYjY5LWMwOTEwMzQzNjJkYyIsIm5hbWUiOiJKaG9uYXRhbiBBemV2ZWRvIiwiZW1haWwiOiJkZXYuYXpldmVkbzEyMzRAb3V0bG9vay5jb20iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3Mzk3OTQ5NjIsImV4cCI6MTczOTg4MTM2Mn0.fRhKbhBvv2XmrLFMvuLau0k3f5EKn34c2ccwPX65wfw
+
+### Create reservation
+POST http://localhost:3005/api/reservations
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1MTRmZWZhLWQ3OWEtNDBmMy1iYjY5LWMwOTEwMzQzNjJkYyIsIm5hbWUiOiJKaG9uYXRhbiBBemV2ZWRvIiwiZW1haWwiOiJkZXYuYXpldmVkbzEyMzRAb3V0bG9vay5jb20iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3Mzk3OTQ5NjIsImV4cCI6MTczOTg4MTM2Mn0.fRhKbhBvv2XmrLFMvuLau0k3f5EKn34c2ccwPX65wfw
+Content-Type: application/json
+
+{
+    "userId": "6278050d-0da3-4b34-85a1-20e19c081f71",
+    "eventPartyId": "b9a8b906-8203-4449-9192-8bb675798a83",
+    "amountReservations": 10
+}

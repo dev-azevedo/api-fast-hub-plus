@@ -1,4 +1,4 @@
-import { PrismaClient, EventParty, Prisma, User } from "@prisma/client";
+import { PrismaClient, EventParty, Prisma } from "@prisma/client";
 import { DefaultArgs } from "@prisma/client/runtime/library";
 
 class EventPartyRepository {

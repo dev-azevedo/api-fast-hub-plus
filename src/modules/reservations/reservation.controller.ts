@@ -4,6 +4,7 @@ import httpStatus from "http-status";
 import ErrorHandler from "../../shared/errors/ErrorHandler.js";
 import ReservationService from "./reservation.service.js";
 import { Reservation } from "@prisma/client";
+import CreateReservationDto from "./dtos/createReservation.dto.js";
 
 class ReservationController {
     private readonly _service: ReservationService;
@@ -31,7 +32,7 @@ class ReservationController {
     }
 
     public create = async (req: Request, res: Response): Promise<void> => {
-        const reservation: Reservation = req.body;
+        const reservation: CreateReservationDto = req.body;
 
         try {
             res.status(httpStatus.CREATED).json(await this._service.create(reservation));

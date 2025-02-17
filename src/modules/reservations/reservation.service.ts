@@ -1,6 +1,7 @@
 import { Reservation } from "@prisma/client";
 import ReservationMapper from "./reservation.mapper.js";
 import ReservationRepository from "./reservation.repository.js";
+import CreateReservationDto from "./dtos/createReservation.dto.js";
 
 class ReservationService {
     private readonly _repository: ReservationRepository;
@@ -24,8 +25,13 @@ class ReservationService {
         return reservationOnDb;
     }
 
-    public create = async (reservation: Reservation): Promise<Reservation> => {
-        return this._repository.create(reservation);
+    public create = async (reservation: CreateReservationDto): Promise<Reservation> => {
+        const {eventPartyId, userId, ...reservationData} = this._mapper.mapCreateReservationDtoToReservation(reservation);
+        return this._repository.create(
+          reservationData,
+          userId,
+          eventPartyId
+        );
     }
 
     public update = async (reservation: Reservation): Promise<Reservation> => {

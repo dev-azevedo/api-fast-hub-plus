@@ -1,9 +1,8 @@
-import { EventParty, User } from "@prisma/client";
+import { EventParty } from "@prisma/client";
 
 import CreateEventPartyDto from "./dtos/createEvent.dto.js";
 import ResponseEventPartyDto from "./dtos/responseEvent.dto.js";
 import UpdateEventPartyDto from "./dtos/updateEvent.dto.js";
-import UserMapper from "../users/user.mapper.js";
 
 class EventPartyMapper {
 

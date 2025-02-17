@@ -23,10 +23,14 @@ class ReservationRepository {
   };
 
   public create = async (
-    reservation: Reservation
+    reservation: Omit<Reservation, 'userId' | 'eventPartyId'>, userId: string, eventPartyId: string
   ): Promise<Reservation> => {
     return await this._model.create({
-      data: reservation,
+      data: {
+        ...reservation,
+        user: { connect: { id: userId } },
+        eventParty: { connect: { id: eventPartyId } },
+      }
     });
   };
 
