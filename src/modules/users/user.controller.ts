@@ -73,7 +73,7 @@ class UserController {
 
     try {
       await this._service.deactiveUser(id);
-      res.status(httpStatus.NO_CONTENT);
+      res.status(httpStatus.NO_CONTENT).json();
     } catch (error) {
       ErrorHandler.handleError(res, error);
     }
