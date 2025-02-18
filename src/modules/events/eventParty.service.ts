@@ -8,14 +8,12 @@ import BaseService from "../../shared/bases/base.service.js";
 
 class EventPartyService extends BaseService<EventParty, CreateEventPartyDto, UpdateEventPartyDto, ResponseEventPartyDto> {
   private readonly _repositoryEventParty: EventPartyRepository;
-  private readonly _mapperEventParty: EventPartyMapper;
 
   constructor() {
     const repository = new EventPartyRepository();
     const mapper = new EventPartyMapper();
     super(repository, mapper);
     this._repositoryEventParty = repository;
-    this._mapperEventParty = mapper;
   }
 
   public create = async (eventParty: CreateEventPartyDto): Promise<ResponseEventPartyDto> => {
@@ -26,13 +24,13 @@ class EventPartyService extends BaseService<EventParty, CreateEventPartyDto, Upd
     if (eventPartyOnDb.length > 0) 
       throw new Error("EventParty already exists");
     
-    const eventFormatted = this._mapperEventParty.mapCreateItemDtoToItem(
+    const eventFormatted = this._mapper.mapCreateItemDtoToItem(
       eventPartyData as CreateEventPartyDto
     );
 
     const eventPartyCreated = await this._repositoryEventParty.create(eventFormatted, userId);
 
-    return this._mapperEventParty.mapItemToResponse(eventPartyCreated);
+    return this._mapper.mapItemToResponse(eventPartyCreated);
   };
 
   public update = async (event: UpdateEventPartyDto): Promise<ResponseEventPartyDto> => {
@@ -49,14 +47,14 @@ class EventPartyService extends BaseService<EventParty, CreateEventPartyDto, Upd
             throw new Error("EventParty already exists");
     }
 
-    const eventFormatted = this._mapperEventParty.mapUpdateItemDtoToItem(
+    const eventFormatted = this._mapper.mapUpdateItemDtoToItem(
       event,
       eventPartyOnDb
     );
 
     const updatedEvent = await this._repositoryEventParty.update(eventFormatted);
 
-    return this._mapperEventParty.mapItemToResponse(updatedEvent);
+    return this._mapper.mapItemToResponse(updatedEvent);
   };
 }   
 
