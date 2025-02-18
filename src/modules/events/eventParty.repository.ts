@@ -1,36 +1,25 @@
 import { PrismaClient, EventParty, Prisma } from "@prisma/client";
 import { DefaultArgs } from "@prisma/client/runtime/library";
+import BaseRepository from "../../shared/bases/base.repository.js";
 
-class EventPartyRepository {
-  private readonly _model: Prisma.EventPartyDelegate<
+class EventPartyRepository extends BaseRepository<EventParty> {
+  private readonly _modelEventParty: Prisma.EventPartyDelegate<
     DefaultArgs,
     Prisma.PrismaClientOptions
   >;
 
   constructor() {
     const prisma = new PrismaClient();
-    this._model = prisma.eventParty;
+    super(prisma.eventParty);
+    this._modelEventParty = prisma.eventParty;
   }
 
-  public findAll = async (): Promise<EventParty[]> => {
-    return await this._model.findMany({
-      where: { active: true },
-    });
-  };
-
-  public findById = async (
-    id: string
-  ): Promise<EventParty | null> => {
-    return await this._model.findUnique({
-      where: { id, active: true },
-    });
-  };
 
   public create = async (
     eventParty: Omit<EventParty, "userId">,
     userId: string
   ): Promise<EventParty> => {
-    return await this._model.create({
+    return await this._modelEventParty.create({
       data: {
         ...eventParty,
         user: { connect: { id: userId } },
@@ -39,16 +28,9 @@ class EventPartyRepository {
   };
 
   public update = async (event: EventParty): Promise<EventParty> => {
-    return await this._model.update({
+    return await this._modelEventParty.update({
       where: { id: event.id },
       data: event,
-    });
-  };
-
-  public deactive = async (id: string): Promise<void> => {
-    await this._model.update({
-      where: { id: id },
-      data: { active: false },
     });
   };
 }   

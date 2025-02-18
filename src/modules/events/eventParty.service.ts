@@ -4,39 +4,30 @@ import CreateEventPartyDto from "./dtos/createEvent.dto.js";
 import EventPartyMapper from "./eventParty.mapper.js";
 import ResponseEventPartyDto from "./dtos/responseEvent.dto.js";
 import UpdateEventPartyDto from "./dtos/updateEvent.dto.js";
-import IBaseService from "../../shared/interfaces/baseService.interface.js";
+import BaseService from "../../shared/bases/base.service.js";
 
-class EventPartyService implements IBaseService<EventParty, CreateEventPartyDto, UpdateEventPartyDto, ResponseEventPartyDto> {
-  private readonly _repository: EventPartyRepository;
-  private readonly _mapper: EventPartyMapper;
+class EventPartyService extends BaseService<EventParty, CreateEventPartyDto, UpdateEventPartyDto, ResponseEventPartyDto> {
+  private readonly _repositoryEventParty: EventPartyRepository;
+  private readonly _mapperEventParty: EventPartyMapper;
 
   constructor() {
-    this._repository = new EventPartyRepository();
-    this._mapper = new EventPartyMapper();
+    const repository = new EventPartyRepository();
+    const mapper = new EventPartyMapper();
+    super(repository, mapper);
+    this._repositoryEventParty = repository;
+    this._mapperEventParty = mapper;
   }
-
-  public findAll = async (): Promise<ResponseEventPartyDto[]> => {
-    const eventsOnDb = await this._repository.findAll();
-    return this._mapper.mapEventsPartyToResponse(eventsOnDb);
-  };
-
-  public findById = async (id: string): Promise<ResponseEventPartyDto> => {
-    const eventPartyOnDb = await this._repository.findById(id);
-
-    if (!eventPartyOnDb) throw new Error("Event not found");
-
-    return this._mapper.mapEventPartyToResponse(eventPartyOnDb);
-  };
 
   public create = async (eventParty: CreateEventPartyDto): Promise<ResponseEventPartyDto> => {
     const { userId, ...eventPartyData }= eventParty 
     
-    const eventFormatted =
-      this._mapper.mapCreateEventPartyDtoToEvent(eventPartyData as CreateEventPartyDto);
+    const eventFormatted = this._mapperEventParty.mapCreateItemDtoToItem(
+      eventPartyData as CreateEventPartyDto
+    );
 
-    const eventPartyOnDb = await this._repository.create(eventFormatted, userId);
+    const eventPartyOnDb = await this._repositoryEventParty.create(eventFormatted, userId);
 
-    return this._mapper.mapEventPartyToResponse(eventPartyOnDb);
+    return this._mapperEventParty.mapItemToResponse(eventPartyOnDb);
   };
 
   public update = async (event: UpdateEventPartyDto): Promise<ResponseEventPartyDto> => {
@@ -45,18 +36,14 @@ class EventPartyService implements IBaseService<EventParty, CreateEventPartyDto,
     if (!eventPartyOnDb) 
         throw new Error("Event not found");
 
-    const eventFormatted = this._mapper.mapUpdateEventPartyDtoToEvent(
+    const eventFormatted = this._mapperEventParty.mapUpdateItemDtoToItem(
       event,
       eventPartyOnDb
     );
 
-    const updatedEvent = await this._repository.update(eventFormatted);
+    const updatedEvent = await this._repositoryEventParty.update(eventFormatted);
 
-    return this._mapper.mapEventPartyToResponse(updatedEvent);
-  };
-
-  public deactive = async (id: string): Promise<void> => {
-    await this._repository.deactive(id);
+    return this._mapperEventParty.mapItemToResponse(updatedEvent);
   };
 }   
 
