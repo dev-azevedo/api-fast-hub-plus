@@ -19,7 +19,8 @@ abstract class BaseService<T, C = T, U = T, R = T> implements IBaseService<T, C,
   public findById = async (id: string): Promise<R> => {
     const itemOnDb = (await this._repository.findById(id)) as T;
 
-    if (!itemOnDb) throw new Error("Item not found");
+    if (!itemOnDb) 
+      throw new Error("Item not found");
 
     return this._mapper.mapItemToResponse(itemOnDb);
   };

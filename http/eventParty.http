@@ -3,7 +3,7 @@ GET http://localhost:3005/api/events
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzgwNTBkLTBkYTMtNGIzNC04NWExLTIwZTE5YzA4MWY3MSIsIm5hbWUiOiJKaG9uYXRhbiBBemV2ZWRvMTIzMTIzMTIzIiwiZW1haWwiOiJkZXYuYXpldmVkbzEyM0BvdXRsb29rLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTczOTkwMjI1NywiZXhwIjoxNzM5OTg4NjU3fQ.iyA4MjzPq8oqXUw_RO1Bvp6zUNhaZJI6_aRgmmvb_aI
 
 ### Get event by id
-GET http://localhost:3005/api/events/9bca2ea2-9555-459f-8313-fafe6365a7c3
+GET http://localhost:3005/api/events/4b7aaac8-59d7-4f83-96ac-5130280ddf41
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzgwNTBkLTBkYTMtNGIzNC04NWExLTIwZTE5YzA4MWY3MSIsIm5hbWUiOiJKaG9uYXRhbiBBemV2ZWRvMTIzMTIzMTIzIiwiZW1haWwiOiJkZXYuYXpldmVkbzEyM0BvdXRsb29rLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTczOTkwMjI1NywiZXhwIjoxNzM5OTg4NjU3fQ.iyA4MjzPq8oqXUw_RO1Bvp6zUNhaZJI6_aRgmmvb_aI
 
 ### Create event
@@ -12,7 +12,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzgwNTBkL
 Content-Type: application/json
 
 {
-    "name": "Test event Test 234324",
+    "name": "Test event Test 2343245",
     "description": "Test event description",
     "eventDate": "2023-10-10T00:00:00.000Z",    
     "amountTickets": 50,
@@ -26,15 +26,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzgwNTBkL
 Content-Type: application/json
 
 {
-    "id": "b9a8b906-8203-4449-9192-8bb675798a83",
-    "name": "Test new event",
+    "id": "4b7aaac8-59d7-4f83-96ac-5130280ddf41",
+    "name": "Test event Test 234324",
     "description": "Test event description",
-    "eventDate": "2023-10-10T00:00:00.000Z",    
+    "eventDate": "2023-10-10T00:00:00.000Z",
     "amountTickets": 50,
-    "amountReservations": 34
+    "amountReservations": 0
 }
 
 
 ### Deactive event
-PATCH http://localhost:3005/api/events/deactive/a38940f5-3f35-416d-9f02-736814430761
+PATCH http://localhost:3005/api/events/deactive/4b7aaac8-59d7-4f83-96ac-5130280ddf41
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzgwNTBkLTBkYTMtNGIzNC04NWExLTIwZTE5YzA4MWY3MSIsIm5hbWUiOiJKaG9uYXRhbiBBemV2ZWRvMTIzMTIzMTIzIiwiZW1haWwiOiJkZXYuYXpldmVkbzEyM0BvdXRsb29rLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTczOTkwMjI1NywiZXhwIjoxNzM5OTg4NjU3fQ.iyA4MjzPq8oqXUw_RO1Bvp6zUNhaZJI6_aRgmmvb_aI

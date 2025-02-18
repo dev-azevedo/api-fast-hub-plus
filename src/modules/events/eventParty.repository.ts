@@ -33,6 +33,12 @@ class EventPartyRepository extends BaseRepository<EventParty> {
       data: event,
     });
   };
+
+  public findByName = async (name: string): Promise<EventParty[]> => {
+    return await this._modelEventParty.findMany({
+      where: { name, active: true },
+    });
+  };
 }   
 
 export default EventPartyRepository;
