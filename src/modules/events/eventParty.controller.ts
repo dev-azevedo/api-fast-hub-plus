@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import httpStatus from "http-status";
 
 import EventPartyService from "./eventParty.service.js";
-import ErrorHandler from "../../shared/errors/ErrorHandler.js";
+import ErrorHandler from "../../shared/errors/ErrorService.js";
 
 class EventPartyController {
   private readonly _service: EventPartyService;

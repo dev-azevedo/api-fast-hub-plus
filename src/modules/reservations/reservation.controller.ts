@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import httpStatus from "http-status";
 
-import ErrorHandler from "../../shared/errors/ErrorHandler.js";
+import ErrorHandler from "../../shared/errors/ErrorService.js";
 import ReservationService from "./reservation.service.js";
 import { Reservation } from "@prisma/client";
 import CreateReservationDto from "./dtos/createReservation.dto.js";

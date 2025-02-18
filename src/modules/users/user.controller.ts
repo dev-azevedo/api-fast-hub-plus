@@ -5,7 +5,7 @@ import httpStatus from "http-status";
 import { CreateUserDto } from "./dtos/createUser.dto.js";
 import { UpdateUserDto } from "./dtos/updateUser.dto.js";
 import { SignInUserDto } from "./dtos/signInUser.dto.js";
-import ErrorHandler from "./../../shared/errors/ErrorHandler.js";
+import ErrorHandler from "../../shared/errors/ErrorService.js";
 
 class UserController {
   private readonly _service: UserService;
