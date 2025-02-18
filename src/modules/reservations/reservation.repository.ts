@@ -1,28 +1,17 @@
 import { EventParty, Prisma, PrismaClient, Reservation, User } from "@prisma/client";
 import { DefaultArgs } from "@prisma/client/runtime/library";
+import BaseRepository from "shared/bases/base.repository.js";
 
-class ReservationRepository {
-  private readonly _model: Prisma.ReservationDelegate<
-    DefaultArgs,
-    Prisma.PrismaClientOptions
-  >;
-
+class ReservationRepository extends BaseRepository<Reservation> {
   constructor() {
     const prisma = new PrismaClient();
-    this._model = prisma.reservation;
+    super(prisma.reservation);
   }
 
-  public findAll = async (): Promise<Reservation[]> => {
-    return await this._model.findMany({ where: { active: true } });
-  };
-
-  public findById = async (id: string): Promise<Reservation | null> => {
-    return await this._model.findUnique({
-      where: { id, active: true },
-    });
-  };
-
-  public findByUserIdAndEventPartyId = async (userId: string, eventPartyId: string): Promise<Reservation & { user: User, eventParty: EventParty } | null> => {
+  public findByUserIdAndEventPartyId = async (
+    userId: string,
+    eventPartyId: string
+  ): Promise<(Reservation & { user: User; eventParty: EventParty }) | null> => {
     return await this._model.findFirst({
       where: { userId: userId, eventPartyId: eventPartyId, active: true },
       include: { user: true, eventParty: true },
@@ -30,33 +19,25 @@ class ReservationRepository {
   };
 
   public create = async (
-    reservation: Omit<Reservation, 'userId' | 'eventPartyId'>, userId: string, eventPartyId: string
+    reservation: Omit<Reservation, "userId" | "eventPartyId">,
+    userId: string,
+    eventPartyId: string
   ): Promise<Reservation> => {
     return await this._model.create({
       data: {
         ...reservation,
         user: { connect: { id: userId } },
         eventParty: { connect: { id: eventPartyId } },
-      }
+      },
     });
   };
 
-  public update = async (
-    reservation: Reservation
-  ): Promise<Reservation> => {
+  public update = async (reservation: Reservation): Promise<Reservation> => {
     return await this._model.update({
       where: { id: reservation.id },
       data: reservation,
     });
   };
-
-  public deactive = async (id: string): Promise<void> => {
-    await this._model.update({
-      where: { id: id },
-      data: { active: false },
-    });
-  };
-  
 }
 
 export default ReservationRepository;

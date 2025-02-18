@@ -2,7 +2,7 @@ import { Prisma, PrismaClient } from "@prisma/client";
 import IBaseRepository from "../interfaces/baseRepository.interface.js";
 
 abstract class BaseRepository<T> implements IBaseRepository<T> {
-  private readonly _model: any;
+  protected readonly _model: any;
 
   constructor(model: any) {
     this._model = model;
