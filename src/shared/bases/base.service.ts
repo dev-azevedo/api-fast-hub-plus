@@ -2,9 +2,11 @@ import IBaseRepository from "shared/interfaces/baseRepository.interface.js";
 import IBaseService from "../interfaces/baseService.interface.js";
 import IBaseMapper from "../interfaces/baseMapper.interface.js";
 
-abstract class BaseService<T, C = T, U = T, R = T> implements IBaseService<T, C, U, R> {
-  private readonly _repository: IBaseRepository<T>;
-  private readonly _mapper: IBaseMapper<T, C, U, R>;
+abstract class BaseService<T, C = T, U = T, R = T>
+  implements IBaseService<T, C, U, R>
+{
+  protected readonly _repository: IBaseRepository<T>;
+  protected readonly _mapper: IBaseMapper<T, C, U, R>;
 
   constructor(repository: IBaseRepository<T>, mapper: IBaseMapper<T, C, U, R>) {
     this._repository = repository;
@@ -19,8 +21,7 @@ abstract class BaseService<T, C = T, U = T, R = T> implements IBaseService<T, C,
   public findById = async (id: string): Promise<R> => {
     const itemOnDb = (await this._repository.findById(id)) as T;
 
-    if (!itemOnDb) 
-      throw new Error("Item not found");
+    if (!itemOnDb) throw new Error("Item not found");
 
     return this._mapper.mapItemToResponse(itemOnDb);
   };

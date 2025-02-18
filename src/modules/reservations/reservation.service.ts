@@ -3,41 +3,35 @@ import ReservationMapper from "./reservation.mapper.js";
 import ReservationRepository from "./reservation.repository.js";
 import CreateReservationDto from "./dtos/createReservation.dto.js";
 import EventPartyService from "modules/events/eventParty.service.js";
-import e from "express";
 import UpdateReservationDto from "./dtos/updateReservation.dto.js";
 import ResponseReservationDto from "./dtos/responseReservation.dto.js";
+import BaseService from "./../../shared/bases/base.service.js";
 
-class ReservationService {
-  private readonly _repository: ReservationRepository;
-  private readonly _mapper: ReservationMapper;
+class ReservationService extends BaseService<
+  Reservation,
+  CreateReservationDto,
+  UpdateReservationDto,
+  ResponseReservationDto
+> {
   private readonly _eventPartyService: EventPartyService;
+  private readonly _repositoryReservatio: ReservationRepository;
 
   constructor() {
-    this._repository = new ReservationRepository();
-    this._mapper = new ReservationMapper();
+    const repository = new ReservationRepository();
+    const mapper = new ReservationMapper();
+    super(repository, mapper);
     this._eventPartyService = new EventPartyService();
+    this._repositoryReservatio = repository;
   }
-
-  public findAll = async (): Promise<ResponseReservationDto[]> => {
-    const reservationsOnDb = await this._repository.findAll();
-    return this._mapper.mapReservationsToResponse(reservationsOnDb);
-  };
-
-  public findById = async (id: string): Promise<ResponseReservationDto> => {
-    const reservationOnDb = await this._repository.findById(id);
-
-    if (!reservationOnDb) throw new Error("Reservation not found");
-
-    return this._mapper.mapReservationToResponse(reservationOnDb);
-  };
 
   public create = async (
     reservation: CreateReservationDto
   ): Promise<ResponseReservationDto> => {
-    const reservationOnDb = await this._repository.findByUserIdAndEventPartyId(
-      reservation.userId,
-      reservation.eventPartyId
-    );
+    const reservationOnDb =
+      await this._repositoryReservatio.findByUserIdAndEventPartyId(
+        reservation.userId,
+        reservation.eventPartyId
+      );
 
     if (reservationOnDb) throw new Error("Reservation already exists");
 
@@ -54,7 +48,7 @@ class ReservationService {
     await this._eventPartyService.update(eventPartyOnDb);
 
     const { eventPartyId, userId, ...reservationData } =
-      this._mapper.mapCreateReservationDtoToReservation(reservation);
+      this._mapper.mapCreateItemDtoToItem(reservation);
 
     const reservationCreated = await this._repository.create(
       reservationData,
@@ -62,7 +56,7 @@ class ReservationService {
       eventPartyId
     );
 
-    return this._mapper.mapReservationToResponse(reservationCreated);
+    return this._mapper.mapItemToResponse(reservationCreated);
   };
 
   public update = async (
@@ -86,7 +80,7 @@ class ReservationService {
       throw new Error("Sorry, this event is full");
 
     const reservationFormatted =
-      this._mapper.mapUpdateReservationDtoToReservation(
+      this._mapper.mapUpdateItemDtoToItem(
         reservation,
         reservationOnDb
       );
@@ -97,16 +91,10 @@ class ReservationService {
       reservation.amountReservations;
     await this._eventPartyService.update(eventPartyOnDb);
 
-    const reservationUpdated = await this._repository.update(reservationFormatted);
-    return this._mapper.mapReservationToResponse(reservationUpdated);
-  };
-
-  public deactive = async (id: string): Promise<void> => {
-    const reservationOnDb = (await this.findById(id)) as Reservation;
-
-    if (!reservationOnDb) throw new Error("Reservation not found");
-
-    await this._repository.deactive(id);
+    const reservationUpdated = await this._repository.update(
+      reservationFormatted
+    );
+    return this._mapper.mapItemToResponse(reservationUpdated);
   };
 }
 

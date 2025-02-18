@@ -3,23 +3,16 @@ import { DefaultArgs } from "@prisma/client/runtime/library";
 import BaseRepository from "../../shared/bases/base.repository.js";
 
 class EventPartyRepository extends BaseRepository<EventParty> {
-  private readonly _modelEventParty: Prisma.EventPartyDelegate<
-    DefaultArgs,
-    Prisma.PrismaClientOptions
-  >;
-
   constructor() {
     const prisma = new PrismaClient();
     super(prisma.eventParty);
-    this._modelEventParty = prisma.eventParty;
   }
-
 
   public create = async (
     eventParty: Omit<EventParty, "userId">,
     userId: string
   ): Promise<EventParty> => {
-    return await this._modelEventParty.create({
+    return await this._model.create({
       data: {
         ...eventParty,
         user: { connect: { id: userId } },
@@ -28,14 +21,14 @@ class EventPartyRepository extends BaseRepository<EventParty> {
   };
 
   public update = async (event: EventParty): Promise<EventParty> => {
-    return await this._modelEventParty.update({
+    return await this._model.update({
       where: { id: event.id },
       data: event,
     });
   };
 
   public findByName = async (name: string): Promise<EventParty[]> => {
-    return await this._modelEventParty.findMany({
+    return await this._model.findMany({
       where: { name, active: true },
     });
   };

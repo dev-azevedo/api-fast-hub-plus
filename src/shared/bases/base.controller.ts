@@ -5,7 +5,7 @@ import IBaseService from '../interfaces/baseService.interface.js';
 import ErrorService from '../errors/ErrorService.js';
 import IBaseController from '../interfaces/baseController.interface.js'
 
-class BaseController<T, C = T, U = T, R = T> implements IBaseController {
+abstract class BaseController<T, C = T, U = T, R = T> implements IBaseController {
   private readonly _service: IBaseService<T, C, U, R>;
 
   constructor(service: IBaseService<T, C, U, R>) {
