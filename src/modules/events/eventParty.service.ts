@@ -4,8 +4,9 @@ import CreateEventPartyDto from "./dtos/createEvent.dto.js";
 import EventPartyMapper from "./eventParty.mapper.js";
 import ResponseEventPartyDto from "./dtos/responseEvent.dto.js";
 import UpdateEventPartyDto from "./dtos/updateEvent.dto.js";
+import IBaseService from "../../shared/interfaces/baseService.interface.js";
 
-class EventPartyService {
+class EventPartyService implements IBaseService<EventParty, CreateEventPartyDto, UpdateEventPartyDto, ResponseEventPartyDto> {
   private readonly _repository: EventPartyRepository;
   private readonly _mapper: EventPartyMapper;
 

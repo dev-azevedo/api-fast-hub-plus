@@ -1,9 +1,9 @@
-interface IBaseService<T> {
-    findAll(): Promise<T>;
-    findById(id: string): Promise<T>;
-    create(item: T): Promise<T>;
-    update(item: T): Promise<T>;
-    deactive(id: string): Promise<void>;
+interface IBaseService<T, C = T, U = T, R = T> {
+  findAll(): Promise<R[]>;
+  findById(id: string): Promise<R>;
+  create(item: C): Promise<R>;
+  update(item: U): Promise<R>;
+  deactive(id: string): Promise<void>;
 }
 
 export default IBaseService

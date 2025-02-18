@@ -5,10 +5,10 @@ import IBaseService from '../interfaces/baseService.interface.js';
 import ErrorService from '../errors/ErrorService.js';
 import IBaseController from '../interfaces/baseController.interface.js'
 
-class BaseController<T> implements IBaseController<T> {
-  private readonly _service: IBaseService<T>;
+class BaseController<T, C = T, U = T, R = T> implements IBaseController {
+  private readonly _service: IBaseService<T, C, U, R>;
 
-  constructor(service: IBaseService<T>) {
+  constructor(service: IBaseService<T, C, U, R>) {
     this._service = service;
   }
 
@@ -33,7 +33,7 @@ class BaseController<T> implements IBaseController<T> {
   };
 
   public create = async (req: Request, res: Response): Promise<void> => {
-    const item: T = req.body;
+    const item: C = req.body;
 
     try {
       const result = await this._service.create(item);
@@ -41,10 +41,10 @@ class BaseController<T> implements IBaseController<T> {
     } catch (error: unknown) {
       ErrorService.handleError(res, error);
     }
-  }
+  };
 
   public update = async (req: Request, res: Response): Promise<void> => {
-    const item: T = req.body;
+    const item: U = req.body;
 
     try {
       const result = await this._service.update(item);
@@ -63,7 +63,7 @@ class BaseController<T> implements IBaseController<T> {
     } catch (error: unknown) {
       ErrorService.handleError(res, error);
     }
-  }
+  };
 }
 
 export default BaseController;

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-interface IBaseController<T> {
+interface IBaseController {
   findAll(req: Request, res: Response): Promise<void>;
   findById(req: Request, res: Response): Promise<void>;
   create(req: Request, res: Response): Promise<void>;
