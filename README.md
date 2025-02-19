@@ -81,8 +81,8 @@ A API é responsável por:
 
 1. Clone o repositório do back-end:
    ```bash
-   git clone https://github.com/seu-usuario/sistema-reservas-eventos-backend.git
-   cd sistema-reservas-eventos-backend
+   git clone https://github.com/dev-azevedo/api-fast-hub-plus.git
+   cd api-fast-hub-plus
    ```
 
 2. Instale as dependências:
