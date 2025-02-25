@@ -44,7 +44,7 @@ class UserService {
     return userResponse;
   };
 
-  public createUser = async (user: CreateUserDto): Promise<ResponseUserDto> => {
+  public create = async (user: CreateUserDto): Promise<ResponseUserDto> => {
     const { confirmPassword, ...userData } = user;
 
     if(userData.password !== confirmPassword)
@@ -60,7 +60,7 @@ class UserService {
 
     userFormatted.password = await this._hashPassword(userFormatted.password);
 
-    const userCreated = await this._repository.createUser(userFormatted);
+    const userCreated = await this._repository.create(userFormatted);
     return this._mapper.mapUserToResponse(userCreated);
   };
 
@@ -80,7 +80,7 @@ class UserService {
     return this._mapper.mapUserToResponse(userOnDb);
   };
 
-  public updateUser = async (user: UpdateUserDto): Promise<ResponseUserDto> => {
+  public update = async (user: UpdateUserDto): Promise<ResponseUserDto> => {
     const userOnDb = await this.findById(user.id) as User;
 
     if (!userOnDb)
@@ -91,18 +91,18 @@ class UserService {
       userOnDb
     );
 
-    const userUpdate = await this._repository.updateUser(userFormatted);
+    const userUpdate = await this._repository.update(userFormatted);
 
     return this._mapper.mapUserToResponse(userUpdate);
   };
 
-  public deactiveUser = async (id: string): Promise<void> => {
+  public deactive = async (id: string): Promise<void> => {
     const userOnDb = await this.findById(id) as User;
 
     if (!userOnDb)
       throw new Error("User not found");
 
-    await this._repository.deactiveUser(userOnDb.id);
+    await this._repository.deactive(userOnDb.id);
   };
 
   private _hashPassword = (password: string): Promise<string> => {

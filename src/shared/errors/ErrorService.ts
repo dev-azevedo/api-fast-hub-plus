@@ -1,7 +1,7 @@
 import { Response } from "express";
 import httpStatus from "http-status";
 
-class ErrorHandler {
+class ErrorService {
   static handleError(res: Response, error: unknown) {
     if (error instanceof Error) {
       res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
@@ -13,4 +13,4 @@ class ErrorHandler {
   }
 }
 
-export default ErrorHandler;
+export default ErrorService;

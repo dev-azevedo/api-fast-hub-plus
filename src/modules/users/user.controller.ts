@@ -5,7 +5,7 @@ import httpStatus from "http-status";
 import { CreateUserDto } from "./dtos/createUser.dto.js";
 import { UpdateUserDto } from "./dtos/updateUser.dto.js";
 import { SignInUserDto } from "./dtos/signInUser.dto.js";
-import ErrorHandler from "./../../shared/errors/ErrorHandler.js";
+import ErrorHandler from "../../shared/errors/ErrorService.js";
 
 class UserController {
   private readonly _service: UserService;
@@ -49,7 +49,7 @@ class UserController {
     const user: CreateUserDto = req.body;
 
     try {
-      const userCreated = await this._service.createUser(user);
+      const userCreated = await this._service.create(user);
       res.status(httpStatus.CREATED).json(userCreated);
     } 
     catch (error) {
@@ -61,7 +61,7 @@ class UserController {
     const user: UpdateUserDto = req.body;
 
     try {
-      const userUpdated = await this._service.updateUser(user);
+      const userUpdated = await this._service.update(user);
       res.status(httpStatus.OK).json(userUpdated);
     } catch (error) {
       ErrorHandler.handleError(res, error);
@@ -72,8 +72,8 @@ class UserController {
     const id: string = req.params.id;
 
     try {
-      await this._service.deactiveUser(id);
-      res.status(httpStatus.NO_CONTENT);
+      await this._service.deactive(id);
+      res.status(httpStatus.NO_CONTENT).json();
     } catch (error) {
       ErrorHandler.handleError(res, error);
     }

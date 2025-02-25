@@ -1,5 +1,4 @@
 import { User } from "@prisma/client";
-import { v4 as uuid } from 'uuid';
 
 import { ResponseUserDto } from "./dtos/responseUser.dto.js";
 import { UpdateUserDto } from "./dtos/updateUser.dto.js";
@@ -38,7 +37,6 @@ class UserMapper {
 
   public mapCreateUserDtoToUser = (userCreated: CreateUserDto): User =>  {
     return {
-        id: uuid(),
         name: userCreated.name,
         email: userCreated.email,
         password: userCreated.password,
@@ -46,7 +44,7 @@ class UserMapper {
         active: userCreated.active,
         createdAt: new Date(),
         updatedAt: new Date(),
-    }
+    } as User;
   }
 }
 

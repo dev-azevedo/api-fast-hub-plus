@@ -4,58 +4,57 @@ import CreateEventPartyDto from "./dtos/createEvent.dto.js";
 import EventPartyMapper from "./eventParty.mapper.js";
 import ResponseEventPartyDto from "./dtos/responseEvent.dto.js";
 import UpdateEventPartyDto from "./dtos/updateEvent.dto.js";
+import BaseService from "../../shared/bases/base.service.js";
 
-class EventPartyService {
-  private readonly _repository: EventPartyRepository;
-  private readonly _mapper: EventPartyMapper;
+class EventPartyService extends BaseService<EventParty, CreateEventPartyDto, UpdateEventPartyDto, ResponseEventPartyDto> {
+  private readonly _repositoryEventParty: EventPartyRepository;
 
   constructor() {
-    this._repository = new EventPartyRepository();
-    this._mapper = new EventPartyMapper();
+    const repository = new EventPartyRepository();
+    const mapper = new EventPartyMapper();
+    super(repository, mapper);
+    this._repositoryEventParty = repository;
   }
 
-  public findAll = async (): Promise<ResponseEventPartyDto[]> => {
-    const eventsOnDb = await this._repository.findAll();
-    return this._mapper.mapEventsPartyToResponse(eventsOnDb);
-  };
-
-  public findById = async (id: string): Promise<ResponseEventPartyDto> => {
-    const eventPartyOnDb = await this._repository.findById(id);
-
-    if (!eventPartyOnDb) throw new Error("Event not found");
-
-    return this._mapper.mapEventPartyToResponse(eventPartyOnDb);
-  };
-
   public create = async (eventParty: CreateEventPartyDto): Promise<ResponseEventPartyDto> => {
-    const { userId, ...eventPartyData }= eventParty 
+    const { userId, ...eventPartyData } = eventParty;
+
+    const eventPartyOnDb = await this._repositoryEventParty.findByName(eventPartyData.name);
+
+    if (eventPartyOnDb.length > 0) 
+      throw new Error("EventParty already exists");
     
-    const eventFormatted =
-      this._mapper.mapCreateEventPartyDtoToEvent(eventPartyData as CreateEventPartyDto);
+    const eventFormatted = this._mapper.mapCreateItemDtoToItem(
+      eventPartyData as CreateEventPartyDto
+    );
 
-    const eventPartyOnDb = await this._repository.createEvent(eventFormatted, userId);
+    const eventPartyCreated = await this._repositoryEventParty.create(eventFormatted, userId);
 
-    return this._mapper.mapEventPartyToResponse(eventPartyOnDb);
+    return this._mapper.mapItemToResponse(eventPartyCreated);
   };
 
   public update = async (event: UpdateEventPartyDto): Promise<ResponseEventPartyDto> => {
     const eventPartyOnDb = await this.findById(event.id) as EventParty;
 
     if (!eventPartyOnDb) 
-        throw new Error("Event not found");
+        throw new Error("EventParty not found");
 
-    const eventFormatted = this._mapper.mapUpdateEventPartyDtoToEvent(
+    const eventPartyOnDbWithName = await this._repositoryEventParty.findByName(event.name);
+
+    if (eventPartyOnDbWithName.length > 0) {
+        const conflitEventByName = eventPartyOnDbWithName.find(eventParty => eventParty.id !== event.id);
+        if (conflitEventByName) 
+            throw new Error("EventParty already exists");
+    }
+
+    const eventFormatted = this._mapper.mapUpdateItemDtoToItem(
       event,
       eventPartyOnDb
     );
 
-    const updatedEvent = await this._repository.updateEvent(eventFormatted);
+    const updatedEvent = await this._repositoryEventParty.update(eventFormatted);
 
-    return this._mapper.mapEventPartyToResponse(updatedEvent);
-  };
-
-  public deactiveEvent = async (id: string): Promise<void> => {
-    await this._repository.deactiveEvent(id);
+    return this._mapper.mapItemToResponse(updatedEvent);
   };
 }   
 
